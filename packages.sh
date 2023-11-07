@@ -30,7 +30,6 @@ arch_packages='
   base-devel
   man-db
   npm
-  code
   xdg-utils
   wl-clipboard
   foot-terminfo
@@ -43,6 +42,13 @@ aur_packages='
 arch_package_urls='
   https://mega.nz/linux/repo/Arch_Extra/x86_64/megacmd-x86_64.pkg.tar.zst
 '
+# Architecture-specific Arch packages
+arch_x86_64_packages='
+  code
+'
+case in $(uname -m)
+  x86_64) arch_packages="$arch_packages $arch_x86_64_packages" ;;
+esac
 
 ## Termux-specific packages
 

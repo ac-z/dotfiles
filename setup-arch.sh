@@ -3,7 +3,7 @@
 . "${1:-$HOME/dotfiles/packages.sh}"
 
 # Install packages from repos & AUR
-if hash paru; then
+if hash paru &> /dev/null; then
   paru -S --needed --noconfirm $arch_packages $aur_packages
 else
   pacman -S --needed --noconfirm $arch_packages
