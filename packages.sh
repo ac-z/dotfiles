@@ -13,6 +13,7 @@ universal_packages='
   tmux
   screen
   bash-completion
+  wget
   starship
   ripgrep
   fd
@@ -46,7 +47,7 @@ arch_package_urls='
 arch_x86_64_packages='
   code
 '
-case in $(uname -m)
+case $(uname -m) in
   x86_64) arch_packages="$arch_packages $arch_x86_64_packages" ;;
 esac
 
