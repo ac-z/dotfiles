@@ -22,10 +22,10 @@ fi
 
 # Check for a setup script for the right distro
 if [ -n "$distro" ]; then
-  if [ -e main/.local/bin/setup-${distro}.sh ]; then
+  if [ -e setup-${distro}.sh ]; then
     read -p "Run setup-${distro}.sh? [Y/n] " -n 1 -r && echo
     if [[ ! $REPLY =~ ^[Nn]$ ]]; then
-      bash main/.local/bin/setup-${distro}.sh
+      bash setup-${distro}.sh
     fi
   else
     echo "No setup-${distro}.sh found."
