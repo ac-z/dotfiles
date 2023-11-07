@@ -89,5 +89,16 @@ require("mason-lspconfig").setup_handlers {
   end
 }
 
+--
+-- Other stuff
+--
+
+-- Terminal settings
+vim.api.nvim_command("autocmd TermOpen * startinsert")             -- starts in insert mode
+vim.api.nvim_command("autocmd TermOpen * setlocal nonumber")       -- no numbers
+vim.api.nvim_command("autocmd TermEnter * setlocal signcolumn=no") -- no sign column
+vim.keymap.set('t', '<C-w>', "<C-\\><C-n><C-w>") -- make <C-w> work in terminal mode
+-- You can also press <C-w><esc> to go to normal mode
+
 -- Load ~/.vimrc, for all vanilla vim-compatible configuration
 vim.cmd("source ~/.vimrc")
