@@ -37,18 +37,22 @@ arch_packages='
   python-pipx
 '
 arch_packages="$arch_packages $universal_packages"
+
 aur_packages='
   walk-bin
 '
+# For installing from URL
 arch_package_urls='
-  https://mega.nz/linux/repo/Arch_Extra/x86_64/megacmd-x86_64.pkg.tar.zst
 '
 # Architecture-specific Arch packages
 arch_x86_64_packages='
   code
 '
 case $(uname -m) in
-  x86_64) arch_packages="$arch_packages $arch_x86_64_packages" ;;
+  x86_64) 
+    arch_packages="$arch_packages $arch_x86_64_packages" 
+    arch_package_urls="$arch_package_urls https://mega.nz/linux/repo/Arch_Extra/x86_64/megacmd-x86_64.pkg.tar.zst"
+  ;;
 esac
 
 ## Termux-specific packages
