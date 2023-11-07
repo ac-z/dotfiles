@@ -4,6 +4,8 @@
 if [ ! -d $HOME/dotfiles/.git ]; then
   echo "Please clone this repo into $HOME/dotfiles"
   exit
+else
+  cd $HOME/dotfiles
 fi
 
 # Distro detection
@@ -40,6 +42,13 @@ fi
 # Generate new SSH key for this device
 ssh-keygen -t ed25519 -C "(Key pair for SSH from $HOSTNAME)" -N "" -f "$HOME/.ssh/id_ed25519"
 
+# Print public key, link user to github key settings, and await any keyboard input
+echo "Go to https://github.com/settings/keys and paste this key:"
+cat $HOME/.ssh/id_ed25519.pub
+read -p "Press any key to continue..."
+
 # Set this git repo's upstrem url to use ssh instead of https
-cd $HOME/dotfiles
 git remote set-url origin git@github.com:amb3r-dev/dotfiles.git
+
+# Update and initialize "private" submodule
+git submodule update --init private
