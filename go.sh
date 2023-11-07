@@ -20,9 +20,6 @@ elif ( . /etc/os-release && [ "$NAME" == "Fedora Linux" ] ); then
   fi
 fi
 
-# Stow main dots
-stow main
-
 # Check for a setup script for the right distro
 if [ -n "$distro" ]; then
   if [ -e main/.local/bin/setup-${distro}.sh ]; then
@@ -34,6 +31,9 @@ if [ -n "$distro" ]; then
     echo "No setup-${distro}.sh found."
   fi
 fi
+
+# Stow main dots
+stow main
 
 # Termux hostname is just "localhost", so use something else
 if [ "$HOSTNAME" == "localhost" ]; then
