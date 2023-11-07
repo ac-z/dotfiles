@@ -13,11 +13,12 @@ arch_container_name="devbox"
 normal_prompt='\n \[\e[0;1m\]\u\[\e[0m\]@\[\e[0;1;96m\]\h\[\e[0m\]:\[\e[0m\]\w \n > '
 
 alias e=\$EDITOR
-alias ls="ls --color=always"
+alias ls="ls --color=always --group-directories-first"
 alias ll="ls -l"
 alias la="ls -a"
 alias lla="ls -la"
 alias tree='tree --filesfirst -CI ".git"'
+alias wcd='cd $(walk)'
 
 # "Enter Archbox"
 function ea {
