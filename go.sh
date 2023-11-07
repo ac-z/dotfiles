@@ -20,6 +20,9 @@ elif ( . /etc/os-release && [ "$NAME" == "Fedora Linux" ] ); then
   fi
 fi
 
+# Stow main dots
+stow main
+
 # Check for a setup script for the right distro
 if [ -n "$distro" ]; then
   if [ -e $HOME/.local/bin/setup-${distro}.sh ]; then
@@ -52,3 +55,6 @@ git remote set-url origin git@github.com:amb3r-dev/dotfiles.git
 
 # Update and initialize "private" submodule
 git submodule update --init private
+
+# Stow private dots
+stow private
