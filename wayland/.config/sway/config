@@ -27,13 +27,13 @@ set $black #303030
 set $gray #505050
 
 ### Colors
-# class                 border	   backgr.	  text	     indica.	child_border
-client.focused			    $maincolor $maincolor $black     #FF0000 $maincolor
+# class                 border     backgr.    text       indica. child_border
+client.focused          $maincolor $maincolor $black     #FF0000 $maincolor
 client.focused_inactive	$gray      $gray      $maincolor #FF0000 $gray
-client.unfocused		    $black     $black     $maincolor #FF0000 $black
-client.urgent			      #ffffff    #ffffff    $black     #ffffff #ffffff
-client.placeholder		  #000000    #000000    #ffffff     #000000 #000000
-client.background		    #000000
+client.unfocused        $black     $black     $maincolor #FF0000 $black
+client.urgent           #ffffff    #ffffff    $black     #ffffff #ffffff
+client.placeholder      #000000    #000000    #ffffff    #000000 #000000
+client.background       #000000
 
 ### Tiling settings
 default_orientation vertical
