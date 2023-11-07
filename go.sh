@@ -7,7 +7,7 @@ if [ ! -d $HOME/dotfiles/.git ]; then
 fi
 
 # Distro detection
-if [ "$PREFIX" == *"com.termux"* ]; then
+if [[ "$PREFIX" == *"com.termux"* ]]; then
   distro="termux"
 elif ( . /etc/os-release && [ "$NAME" == "Arch Linux" ] ); then
   distro="arch"
