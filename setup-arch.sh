@@ -1,6 +1,6 @@
 #!/bin/bash
 # Receive package lists from first arg
-. "${1:-$HOME/.packages}"
+. "${1:-$HOME/dotfiles/packages.sh}"
 
 # Install packages from repos & AUR
 if hash paru; then
