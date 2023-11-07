@@ -25,10 +25,10 @@ stow main
 
 # Check for a setup script for the right distro
 if [ -n "$distro" ]; then
-  if [ -e $HOME/.local/bin/setup-${distro}.sh ]; then
+  if [ -e main/.local/bin/setup-${distro}.sh ]; then
     read -p "Run setup-${distro}.sh? [Y/n] " -n 1 -r && echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-      bash $HOME/.local/bin/setup-${distro}.sh
+    if [[ ! $REPLY =~ ^[Nn]$ ]]; then
+      bash main/.local/bin/setup-${distro}.sh
     fi
   else
     echo "No setup-${distro}.sh found."
