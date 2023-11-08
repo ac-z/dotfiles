@@ -21,6 +21,7 @@ while true; do
       echo "  -h, --help    Show this help message"
       echo "  -l, --list    List distroboxes or proot-distros"
       echo "  -e, --enter   Enter distrobox or proot-distro"
+      exit
     -l|--list) 
       case "$mode" in
         distrobox) distrobox list ;;
