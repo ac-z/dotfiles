@@ -40,6 +40,7 @@ if [ \$? -eq 5 ]; then
   echo "Function \$1 doesn't exist in $scriptname."
   echo "Deleting shim."
   rm $HOME/.shortcuts/$function
+  read -p "Press any key to continue"
 fi
 EOF
     chmod +x $HOME/.shortcuts/$function
