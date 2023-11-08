@@ -34,7 +34,7 @@ while true; do
       shift
       case "$mode" in
         distrobox) distrobox enter "${1:-$arch_container_name}" ;;
-        proot-distro) proot-distro login "${1:-$arch_container_name}" --user $(cat .archbox_user) --termux-home ;;
+        proot-distro) proot-distro login "${1:-$arch_container_name}" --user $(cat $HOME/.archbox_user) --termux-home ;;
       esac
       exit
     ;;
@@ -63,11 +63,11 @@ case "$mode" in
   proot-distro) 
     if ! proot-distro list 2>&1 | grep -q "${1:-$arch_container_name}"; then
       # unless $HOME/.archbox_user exists...
-      if [ ! -f .archbox_user ]; then
+      if [ ! -f $HOME/.archbox_user ]; then
         # Prompt user for desired username
         echo "Enter desired username: "
         read username
-        echo "$username" > .archbox_user
+        echo "$username" > $HOME/.archbox_user
       fi
 
       # Only include this line if $2 exists
@@ -91,8 +91,8 @@ distro_setup() {
     echo "session  required  pam_env.so readenv=1" >> ./etc/pam.d/"\${f}"
   done
 
-  echo "$username ALL=(ALL) NOPASSWD:ALL" >> ./etc/sudoers
-  run_proot_cmd useradd -m -G wheel -U $username
+  echo "$(cat $HOME/.archbox_user) ALL=(ALL) NOPASSWD:ALL" >> ./etc/sudoers
+  run_proot_cmd useradd -m -G wheel -U $(cat $HOME/.archbox_user)
 
   # Copy the setup script
   $setup_script_line
