@@ -37,7 +37,7 @@ if [ $# -eq 0 ]; then
 # If the given function doesn't exist in $scriptname, this script should delete itself
 bash $scriptname $function
 if [ \$? -eq 5 ]; then
-  echo "Function \$1 doesn't exist in $scriptname."
+  echo "Function $function doesn't exist in $scriptname."
   echo "Deleting shim."
   rm $HOME/.shortcuts/$function
   read -p "Press any key to continue"
