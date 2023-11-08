@@ -22,8 +22,10 @@ alias wcd='cd $(walk)'
 
 # "Enter Archbox"
 function ea {
+    # If no argument is given, engage default setup script
+	[ -z "$1" ] && setup_script=$HOME/dotfiles/setup-arch.sh
 	if ! archbox.sh --list | grep -q "arch-${1:-$arch_container_name}"; then
-		archbox.sh "arch-${1:-$arch_container_name}" && ea "${1:-$arch_container_name}"
+		archbox.sh "arch-${1:-$arch_container_name}" $setup_script && ea "${1:-$arch_container_name}"
 	else
 		archbox.sh --enter "arch-${1:-$arch_container_name}"
 	fi
