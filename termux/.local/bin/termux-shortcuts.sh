@@ -4,8 +4,8 @@
 # When run with one arg: 
 # - Run the given function.
 
-########################################
-# Define your functions here:
+############################################
+# Define or dot-source your functions here:
 
 Termux-Shell() {
   bash -l
@@ -19,7 +19,7 @@ Arch-Editor() {
   bash $HOME/.local/bin/archbox.sh --enter arch-devbox nvim
 }
 
-########################################
+############################################
 
 # Collect function names into a list
 functions="$(declare -F | awk '{print $3}')"
