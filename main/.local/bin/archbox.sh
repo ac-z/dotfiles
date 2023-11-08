@@ -70,14 +70,12 @@ case "$mode" in
         echo "$username" > .archbox_user
       fi
 
-      # unless $PREFIX/etc/proot-distro/proot-archbox.sh exists...
-      if [ ! -f $PREFIX/etc/proot-distro/proot-archbox.sh ]; then
-        # Only include this line if $2 exists
-        if [ -n "$2" ]; then
-          setup_script_line="cp $2 ./$(basename $2) && run_proot_cmd bash /$(basename $2)"
-        fi
-        # create from heredoc
-        cat <<EOF >$PREFIX/etc/proot-distro/proot-archbox.sh
+      # Only include this line if $2 exists
+      if [ -n "$2" ]; then
+        setup_script_line="cp $2 ./$(basename $2) && run_proot_cmd bash /$(basename $2)"
+      fi
+      # create from heredoc
+      cat <<EOF >$PREFIX/etc/proot-distro/proot-archbox.sh
 DISTRO_NAME="Archbox"
 DISTRO_COMMENT="Custom setup for Arch Linux, implemented as a distro plugin for proot-distro."
 
@@ -100,7 +98,7 @@ distro_setup() {
   $setup_script_line
 }
 EOF
-      fi
+
       proot-distro install proot-archbox --override-alias "${1:-$arch_container_name}"
     else
       echo "The proot ${1:-$arch_container_name} already exists."
