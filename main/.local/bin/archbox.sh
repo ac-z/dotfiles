@@ -61,7 +61,7 @@ case "$mode" in
     fi
   ;;
   proot-distro) 
-    if ! proot-distro list | grep -q "${1:-$arch_container_name}"; then
+    if ! proot-distro list 2>&1 | grep -q "${1:-$arch_container_name}"; then
       # unless $HOME/.archbox_user exists...
       if [ ! -f .archbox_user ]; then
         # Prompt user for desired username
@@ -73,30 +73,30 @@ case "$mode" in
       # unless $PREFIX/etc/proot-distro/proot-archbox.sh exists...
       if [ ! -f $PREFIX/etc/proot-distro/proot-archbox.sh ]; then
         # create from heredoc
-        cat <<-EOF >$PREFIX/etc/proot-distro/proot-archbox.sh
-        DISTRO_NAME="Archbox"
-        DISTRO_COMMENT="Custom setup for Arch Linux, implemented as a distro plugin for proot-distro."
- 
-        TARBALL_URL['aarch64']="https://github.com/termux/proot-distro/releases/download/v3.18.1/archlinux-aarch64-pd-v3.18.1.tar.xz"
-        TARBALL_SHA256['aarch64']="68de6db105dc503e8defe55ac37fad9b531f07aa16b8a8072c505fff5fbc03a1"
-        TARBALL_URL['arm']="https://github.com/termux/proot-distro/releases/download/v3.18.1/archlinux-arm-pd-v3.18.1.tar.xz"
-        TARBALL_SHA256['arm']="2701e2aac78bb0cb86f113701ae226c35b38a4e8f5404ae97e7eb0cc4599ab79"
- 
-        distro_setup() {
-          # Fix environment variables on login or su.
-          local f
-          for f in su su-l system-local-login system-remote-login; do
-            echo "session  required  pam_env.so readenv=1" >> ./etc/pam.d/"\${f}"
-          done
+        cat <<EOF >$PREFIX/etc/proot-distro/proot-archbox.sh
+DISTRO_NAME="Archbox"
+DISTRO_COMMENT="Custom setup for Arch Linux, implemented as a distro plugin for proot-distro."
 
-          echo "$username ALL=(ALL) NOPASSWD:ALL" >> ./etc/sudoers
-          run_proot_cmd useradd -m -G wheel -U $username
+TARBALL_URL['aarch64']="https://github.com/termux/proot-distro/releases/download/v3.18.1/archlinux-aarch64-pd-v3.18.1.tar.xz"
+TARBALL_SHA256['aarch64']="68de6db105dc503e8defe55ac37fad9b531f07aa16b8a8072c505fff5fbc03a1"
+TARBALL_URL['arm']="https://github.com/termux/proot-distro/releases/download/v3.18.1/archlinux-arm-pd-v3.18.1.tar.xz"
+TARBALL_SHA256['arm']="2701e2aac78bb0cb86f113701ae226c35b38a4e8f5404ae97e7eb0cc4599ab79"
 
-          # Copy the setup script
-          cp $2 ./$(basename $2)
-          run_proot_cmd bash /$(basename $2)
-        }
-        EOF
+distro_setup() {
+  # Fix environment variables on login or su.
+  local f
+  for f in su su-l system-local-login system-remote-login; do
+    echo "session  required  pam_env.so readenv=1" >> ./etc/pam.d/"\${f}"
+  done
+
+  echo "$username ALL=(ALL) NOPASSWD:ALL" >> ./etc/sudoers
+  run_proot_cmd useradd -m -G wheel -U $username
+
+  # Copy the setup script
+  cp $2 ./$(basename $2)
+  run_proot_cmd bash /$(basename $2)
+}
+EOF
       fi
       proot-distro install proot-archbox --override-alias "${1:-$arch_container_name}"
     else
