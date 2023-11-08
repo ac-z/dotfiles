@@ -5,10 +5,9 @@
 # Update packages & install termux packages
 pkg update -y && pkg install -y $termux_packages
 
-# Install pipx
-pkg install -y python-pip && pip install --user pipx
+# Stow dotfiles 
+(cd $HOME/dotfiles && stow main termux)
 
-# Install pipx packages
-for package in $pipx_packages; do
-	pipx install $package
-done
+# Extra stuff
+termux-setup-storage
+$HOME/.local/bin/termux-shortcuts.sh

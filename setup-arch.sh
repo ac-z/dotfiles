@@ -16,3 +16,6 @@ fi
 for url in $arch_package_urls; do
   "$HOME/dotfiles/main/.local/bin/install-arch-pkg-from-url.sh" $url
 done
+
+# Stow dotfiles 
+(cd $HOME/dotfiles && stow main termux)

@@ -11,15 +11,12 @@ fi
 # Distro detection
 if [[ "$PREFIX" == *"com.termux"* ]]; then
   distro="termux"
-  stow_pkgs="main"
 elif ( . /etc/os-release && [ "$NAME" == "Arch Linux" ] ); then
   distro="arch"
-  stow_pkgs="main"
 elif ( . /etc/os-release && [ "$NAME" == "Fedora Linux" ] ); then
   distro="fedora"
   if [ -e "/usr/bin/rpm-ostree" ]; then
 	distro="fedora-ostree"
-    stow_pkgs="main wayland"
   fi
 fi
 
@@ -34,9 +31,6 @@ if [ -n "$distro" ]; then
     echo "No setup-${distro}.sh found."
   fi
 fi
-
-# Stow main dots
-stow $stow_pkgs
 
 # Termux hostname is just "localhost", so use something else
 if [ "$HOSTNAME" == "localhost" ]; then
