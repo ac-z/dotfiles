@@ -85,12 +85,12 @@ distro_setup() {
     echo "session  required  pam_env.so readenv=1" >> ./etc/pam.d/"\${f}"
   done
 
-  # Run updates
-  run_proot_cmd pacman -Syu sudo --noconfirm
-
   # Add user
   echo "$(cat $HOME/.archbox_user) ALL=(ALL) NOPASSWD:ALL" >> ./etc/sudoers
   run_proot_cmd useradd -m -G wheel -U $(cat $HOME/.archbox_user)
+
+  # Run updates
+  run_proot_cmd pacman -Syu sudo --noconfirm
 }
 EOF
       # Install system
