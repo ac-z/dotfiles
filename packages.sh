@@ -64,6 +64,7 @@ termux_packages='
   libexpat
   nodejs
   termux-tools
+  termux-api
   proot-distro
   megacmd
 '
