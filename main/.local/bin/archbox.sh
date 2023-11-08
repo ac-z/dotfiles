@@ -65,8 +65,7 @@ case "$mode" in
       # unless $HOME/.archbox_user exists...
       if [ ! -f $HOME/.archbox_user ]; then
         # Prompt user for desired username
-        echo "Enter desired username: "
-        read username
+        read -p "Enter desired username: " username
         echo "$username" > $HOME/.archbox_user
       fi
       # create plugin from heredoc
@@ -87,7 +86,7 @@ distro_setup() {
   done
 
   # Run updates
-  pacman -Syu sudo --noconfirm
+  run_proot_cmd pacman -Syu sudo --noconfirm
 
   # Add user
   echo "$(cat $HOME/.archbox_user) ALL=(ALL) NOPASSWD:ALL" >> ./etc/sudoers
