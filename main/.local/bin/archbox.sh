@@ -72,6 +72,10 @@ case "$mode" in
 
       # unless $PREFIX/etc/proot-distro/proot-archbox.sh exists...
       if [ ! -f $PREFIX/etc/proot-distro/proot-archbox.sh ]; then
+        # Only include this line if $2 exists
+        if [ -n "$2" ]; then
+          setup_script_line="cp $2 ./$(basename $2) && run_proot_cmd bash /$(basename $2)"
+        fi
         # create from heredoc
         cat <<EOF >$PREFIX/etc/proot-distro/proot-archbox.sh
 DISTRO_NAME="Archbox"
@@ -93,8 +97,7 @@ distro_setup() {
   run_proot_cmd useradd -m -G wheel -U $username
 
   # Copy the setup script
-  cp $2 ./$(basename $2)
-  run_proot_cmd bash /$(basename $2)
+  $setup_script_line
 }
 EOF
       fi
