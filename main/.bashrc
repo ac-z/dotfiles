@@ -17,7 +17,7 @@ alias ls="ls --color=always --group-directories-first"
 alias ll="ls -l"
 alias la="ls -a"
 alias lla="ls -la"
-alias tree='tree --filesfirst -CI ".git"'
+alias tree='tree --filesfirst -CAI ".git"'
 alias wcd='cd $(walk)'
 
 # "Enter Archbox"
