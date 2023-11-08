@@ -34,7 +34,7 @@ while true; do
       shift
       case "$mode" in
         distrobox) distrobox enter "${1:-$arch_container_name}" ;;
-        proot-distro) proot-distro login "${1:-$arch_container_name}" --user $(cat $HOME/.archbox_user) --termux-home ;;
+        proot-distro) proot-distro login "${1:-$arch_container_name}" --user $(cat $HOME/.archbox_user) --termux-home -- sh -c bash ;;
       esac
       exit
     ;;
@@ -69,12 +69,7 @@ case "$mode" in
         read username
         echo "$username" > $HOME/.archbox_user
       fi
-
-      # Only include this line if $2 exists
-      if [ -n "$2" ]; then
-        setup_script_line="cp $2 ./$(basename $2) && run_proot_cmd bash /$(basename $2)"
-      fi
-      # create from heredoc
+      # create plugin from heredoc
       cat <<EOF >$PREFIX/etc/proot-distro/proot-archbox.sh
 DISTRO_NAME="Archbox"
 DISTRO_COMMENT="Custom setup for Arch Linux, implemented as a distro plugin for proot-distro."
@@ -91,15 +86,18 @@ distro_setup() {
     echo "session  required  pam_env.so readenv=1" >> ./etc/pam.d/"\${f}"
   done
 
+  # Run updates
+  pacman -Syu sudo --noconfirm
+
+  # Add user
   echo "$(cat $HOME/.archbox_user) ALL=(ALL) NOPASSWD:ALL" >> ./etc/sudoers
   run_proot_cmd useradd -m -G wheel -U $(cat $HOME/.archbox_user)
-
-  # Copy the setup script
-  $setup_script_line
 }
 EOF
-
+      # Install system
       proot-distro install proot-archbox --override-alias "${1:-$arch_container_name}"
+      # Run setup script as normal user
+	  proot-distro login "${1:-$arch_container_name}" --user $(cat $HOME/.archbox_user) --termux-home -- $2
     else
       echo "The proot ${1:-$arch_container_name} already exists."
     fi
