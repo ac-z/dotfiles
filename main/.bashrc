@@ -23,7 +23,7 @@ alias wcd='cd $(walk)'
 # "Enter Archbox"
 function ea {
 	if hash distrobox &>/dev/null; then
-		if ! distrobox list | grep -q "arch-${1:-$arch_container_name}"; then
+		if archbox.sh --list | grep -q "arch-${1:-$arch_container_name}"; then
 			archbox.sh "arch-${1:-$arch_container_name}" && ea "${1:-$arch_container_name}"
 		else
 			distrobox enter "arch-${1:-$arch_container_name}"
