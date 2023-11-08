@@ -33,8 +33,8 @@ while true; do
     -e|--enter) 
       shift
       case "$mode" in
-        distrobox) distrobox enter "${1:-$arch_container_name}" -- "${2:-bash} ${@:3}" ;;
-        proot-distro) proot-distro login "${1:-$arch_container_name}" --user $(cat $HOME/.archbox_user) --termux-home -- "${2:-sh -c bash} ${@:3}" ;;
+        distrobox) distrobox enter "${1:-$arch_container_name}" -- "${2:-bash}" ${@:3} ;;
+        proot-distro) proot-distro login "${1:-$arch_container_name}" --user $(cat $HOME/.archbox_user) --termux-home -- "${2:-sh -c bash}" ${@:3} ;;
       esac
       exit
     ;;
