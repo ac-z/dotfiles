@@ -26,7 +26,7 @@ while true; do
     -l|--list) 
       case "$mode" in
         distrobox) distrobox list ;;
-        proot-distro) proot-distro list ;;
+        proot-distro) proot-distro list 2>&1 ;;
       esac
       exit
     ;;
