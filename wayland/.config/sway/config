@@ -88,6 +88,9 @@ input "1:1:AT_Translated_Set_2_keyboard" {
     # Start a terminal
     bindsym $mod+Return exec $term
 
+    # Start a Neovim terminal
+    bindsym $mod+$alt+Return exec $term -e distrobox enter arch-devbox -- nvim +term
+
     # Kill focused window
     bindsym $mod+$alt+q kill
 
