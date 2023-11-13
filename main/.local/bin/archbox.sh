@@ -25,8 +25,8 @@ while true; do
 	;;
     -l|--list) 
       case "$mode" in
-        distrobox) distrobox list ;;
-        proot-distro) proot-distro list 2>&1 ;;
+        distrobox) podman ps --all --format "{{.Names}}" | grep "arch-.*" ;;
+        proot-distro) ls $PREFIX/etc/proot-distro/ | grep "arch-.*" | cut -f1 -d'.' ;;
       esac
       exit
     ;;
