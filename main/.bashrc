@@ -31,58 +31,6 @@ function ea {
 	fi
 }
 
-################
-### Starship ###
-################
-
-# shellcheck disable=SC2016
-starship_config='
-  format = " $all"
-  
-  [username]
-  style_user = "#f2a400"
-  disabled = false
-  show_always = true
-  format = "[$user]($style bold)"
-  
-  [character]
-  format = " $symbol "
-  success_symbol = "[>](#FFFFFF)"
-  error_symbol = "[>](red)"
-  
-  [hostname]
-  disabled = false
-  ssh_only = false
-  format = "@[$hostname](yellow bold):"
-  
-  ### Disable all Nerd Font icons...
-  [battery]
-  full_symbol = "• "
-  charging_symbol = "⇡ "
-  discharging_symbol = "⇣ "
-  unknown_symbol = "❓ "
-  empty_symbol = "❗ "
-  
-  [erlang]
-  symbol = "ⓔ "
-  
-  [nodejs]
-  symbol = "[⬢](bold green) "
-  
-  [pulumi]
-  symbol = "🧊 "
-'
-
-function starship_init() {
-	# If ~/.config/starship.toml doesn't match this variable, make it match
-	if [ "$starship_config" != "$(cat ~/.config/starship.toml >/dev/null 2>&1)" ]; then
-		echo "$starship_config" >~/.config/starship.toml
-	fi
-
-	# Initialize starship
-	eval "$(starship init bash)"
-}
-
 #################
 ### Dev tools ###
 #################
@@ -136,17 +84,7 @@ elif hash "nano" &>/dev/null; then
 fi
 export VISUAL=$EDITOR
 
-## Prompt
-if hash "starship" &>/dev/null; then
-	starship_init
-else
-	PS1="$normal_prompt"
-fi
-
-############
-### Misc ###
-############
-
+# Paths
 function source_if_exists {
 	if [ -f "$1" ]; then
 		. "$1"
@@ -156,3 +94,6 @@ function source_if_exists {
 source_if_exists /usr/share/bash-completion/bash_completion
 # Termux completions
 source_if_exists $PREFIX/share/bash-completion/bash_completion
+
+# Prompt
+. ~/.bash_prompt
