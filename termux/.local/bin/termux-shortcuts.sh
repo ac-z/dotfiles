@@ -19,6 +19,10 @@ Arch-Editor() {
   bash $HOME/.local/bin/archbox.sh --enter arch-devbox nvim
 }
 
+Termux-htop() {
+  htop
+}
+
 ############################################
 
 # Collect function names into a list
