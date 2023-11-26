@@ -113,6 +113,7 @@ require("lazy").setup(
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
     "hrsh7th/cmp-nvim-lsp",
+    "nvim-treesitter/nvim-treesitter",
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-path",
     "hrsh7th/cmp-cmdline",
@@ -123,6 +124,17 @@ require("lazy").setup(
       version = '1.3',
       config = function()
         require 'term-edit'.setup({ prompt_end = ' > ' })
+      end
+    },
+    { "HampusHauffman/block.nvim",
+      config = function()
+        require("block").setup({
+          percent = 1.4,
+          depth = 4,
+          colors = nil,
+          automatic = true,
+          bg = "#101010"
+        })
       end
     },
     { "Exafunction/codeium.nvim",

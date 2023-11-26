@@ -14,6 +14,7 @@ syntax on
 
 """ Colors
 " UI elements
+hi Normal    guifg=#f2a400 guibg=#000000 gui=Bold
 hi LineNr    guifg=#000000 guibg=#f2a400 gui=Bold
 hi Pmenu     guifg=#f2a400 guibg=#303030 
 hi PmenuSel  guifg=#000000 guibg=#f2a400 gui=Bold
