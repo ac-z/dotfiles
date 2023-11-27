@@ -129,11 +129,12 @@ require("lazy").setup(
     { "HampusHauffman/block.nvim",
       config = function()
         require("block").setup({
-          percent = 1.4,
           depth = 4,
-          colors = nil,
+          colors = {
+            "#000000",
+            "#1A1A1A",
+          },
           automatic = true,
-          bg = "#101010"
         })
       end
     },
@@ -220,6 +221,11 @@ vim.keymap.set('t', '<C-w>', "<C-\\><C-n><C-w>") -- make <C-w> work in terminal 
 
 -- split new terminal with alt+enter
 vim.keymap.set('n', '<M-CR>', ':split<CR> :term<CR>')
+
+-- Reload Block highlighting on edits
+vim.api.nvim_command("autocmd TextChanged * exec 'Block' | Block") -- no sign column
+vim.api.nvim_command("autocmd TextChangedI * exec 'Block' | Block") -- no sign column
+vim.api.nvim_command("autocmd TextChangedP * exec 'Block' | Block") -- no sign column
 
 -- Load ~/.vimrc, for all vanilla vim-compatible configuration
 vim.cmd("source ~/.vimrc")
