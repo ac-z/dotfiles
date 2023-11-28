@@ -1,3 +1,5 @@
+# vi: ft=bash
+
 # turns the #123b84 color codes to 203;133;54 rgb codes
 hex_color_to_rgb() {
   hex=${1#"#"}
@@ -22,6 +24,14 @@ no_color_ps1() {
   printf "\[\033[0m\]"
 }
 
+short_pwd() {
+  local PRE= NAME="$PWD" LENGTH="$1";
+  [[ "$NAME" != "${NAME#$HOME/}" || -z "${NAME#$HOME}" ]] &&
+    PRE+='~' NAME="${NAME#$HOME}" LENGTH=$[LENGTH-1];
+  ((${#NAME}>$LENGTH)) && NAME="/...${NAME:$[${#NAME}-LENGTH+4]}";
+  echo "$PRE$NAME"
+}
+
 gitbranch() {
   branch_id=$(git branch 2>/dev/null | grep '^*' | cut -c 2-)
   if [ $branch_id ]
@@ -43,6 +53,10 @@ short_time() {
 	printf "$TMP_TIME"
 }
 
+terminal_title() {
+  echo -en "\033]0;$1\a"
+}
+
 orange="#f2a400"
 gray="#787878"
 red="#ff0000"
@@ -50,32 +64,38 @@ red="#ff0000"
 prompt_cmd() {
   # Show status code
   case $? in 
-    0) prompt_code="" ;;
-    *) prompt_code="($?)" ;;
+    0) local prompt_code="" ;;
+    *) local prompt_code="($?)" ;;
   esac
 
   # Show git branch, and color it based on status
-  git_branch="$(gitbranch)"
+  local git_branch="$(gitbranch)"
   if [[ "$git_branch" ]]; then
     if [[ $(git status --porcelain) ]]; then
-      git_branch_color=$(rgb_fg_ps1 $red)
+      local git_branch_color=$(rgb_fg_ps1 $red)
     else
-      git_branch_color=$(rgb_fg_ps1 $orange)
+      local git_branch_color=$(rgb_fg_ps1 $orange)
     fi
   fi
 
-  LINE_1="\
-$(rgb_bg_ps1 $orange)  $(no_color_ps1) \
-$(rgb_fg_ps1 $orange)$(current_user)\
-$(rgb_fg_ps1 $gray)@\
-$(rgb_fg_ps1 $orange)$HOSTNAME\
-$(rgb_fg_ps1 $gray):${PWD/#$HOME/'~'} \
-$git_branch_color$git_branch"
-  LINE_2="$(rgb_bg_ps1 $orange)  $(no_color_ps1) \
-$(rgb_fg_ps1 $red)$(short_time) \
-⚙️$prompt_code$(no_color_ps1)> "
+  local NEWLINE_BLOCK="\r\n$(rgb_bg_ps1 $orange)  $(no_color_ps1) "
 
-  PS1="\r\n${LINE_1}\r\n${LINE_2}"
+  local max_dir_length="32"
+  local LINE_1A="$(rgb_fg_ps1 $orange)$(current_user)$(rgb_fg_ps1 $gray)@$(rgb_fg_ps1 $orange)$HOSTNAME"
+  local LINE_1B="$(rgb_fg_ps1 $gray):$(short_pwd $max_dir_length) $git_branch_color$git_branch"
+  local LINE_1="${LINE_1A}${LINE_1B}"
+  # Get an escape-codeless raw string, representing the true length of LINE_1
+  local LINE_1_TEXT="$(echo "${NEWLINE_BLOCK}${LINE_1}" | sed -e "s/$(echo -e "\e")[^m]*m//g" -e 's/\\//g' -e 's/\[//g' -e 's/]//g')"
+  # If LINE_1 is too long, split into a third line instead
+  [ $(echo "$LINE_1_TEXT" | wc -m) -gt $(tput cols) ]\
+    && local LINE_1="${LINE_1A}${NEWLINE_BLOCK}${LINE_1B}"
+
+  local LINE_2="$(rgb_fg_ps1 $red)$(short_time) ⚙️$prompt_code$(no_color_ps1)> "
+
+  # Final prompt
+  PS1="${NEWLINE_BLOCK}${LINE_1}${NEWLINE_BLOCK}${LINE_2}"
+
+  terminal_title "$(current_user)@$HOSTNAME:$(dirs)"
 }
 
 export PROMPT_COMMAND='prompt_cmd'
