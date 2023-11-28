@@ -3,14 +3,21 @@
 """ Opts
 set number
 set numberwidth=4
+set nowrap
 set scrolloff=10
 set signcolumn=number
 set termguicolors
+set title
 set laststatus=2
 set tabstop=4
 set shiftwidth=4
 set expandtab
 syntax on
+
+" Cursor shape
+let &t_SI = "\<Esc>[6 q"
+let &t_SR = "\<Esc>[4 q"
+let &t_EI = "\<Esc>[2 q"
 
 """ Colors
 " UI elements

@@ -212,6 +212,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
 --
 -- Other stuff
 --
+-- Window title
+vim.opt.titlestring = "nvim: %{execute('!term_title.sh')->split('!term_title.sh')[1]}"
+
 -- Terminal settings
 vim.api.nvim_command("autocmd TermOpen * startinsert")             -- starts in insert mode
 vim.api.nvim_command("autocmd TermOpen * setlocal nonumber")       -- no numbers

@@ -95,7 +95,7 @@ prompt_cmd() {
   # Final prompt
   PS1="${NEWLINE_BLOCK}${LINE_1}${NEWLINE_BLOCK}${LINE_2}"
 
-  terminal_title "$(current_user)@$HOSTNAME:$(dirs)"
+  terminal_title "bash: $(term_title.sh)"
 }
 
 export PROMPT_COMMAND='prompt_cmd'

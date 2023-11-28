@@ -9,8 +9,6 @@
 
 # Default name for new arch container
 arch_container_name="devbox"
-# Default prompt for when starship doesn't load
-normal_prompt='\n \[\e[0;1m\]\u\[\e[0m\]@\[\e[0;1;96m\]\h\[\e[0m\]:\[\e[0m\]\w \n > '
 
 alias e=\$EDITOR
 alias ls="ls --color=always --group-directories-first"
