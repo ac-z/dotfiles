@@ -98,6 +98,15 @@ require("lazy").setup(
         })
       end
     },
+    { "kylechui/nvim-surround",
+      version = "*", -- Use for stability; omit to use `main` branch for the latest features
+      event = "VeryLazy",
+      config = function()
+        require("nvim-surround").setup({
+          -- Configuration here, or leave empty to use defaults
+        })
+      end
+    },
     { "folke/which-key.nvim",
       event = "VeryLazy",
       init = function()
@@ -113,6 +122,9 @@ require("lazy").setup(
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
     "hrsh7th/cmp-nvim-lsp",
+    { "folke/trouble.nvim",
+      opts = { icons = false },
+    },
     "nvim-treesitter/nvim-treesitter",
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-path",
@@ -134,7 +146,7 @@ require("lazy").setup(
             "#000000",
             "#1A1A1A",
           },
-          automatic = true,
+          automatic = false,
         })
       end
     },
@@ -212,8 +224,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 --
 -- Other stuff
 --
--- Window title
-vim.opt.titlestring = "nvim: %{execute('!term_title.sh')->split('!term_title.sh')[1]}"
 
 -- Terminal settings
 vim.api.nvim_command("autocmd TermOpen * startinsert")             -- starts in insert mode
