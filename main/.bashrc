@@ -11,7 +11,7 @@
 arch_container_name="devbox"
 
 alias e=\$EDITOR
-alias ls="ls --color=always --group-directories-first"
+alias ls="ls -h --color=always --group-directories-first"
 alias ll="ls -l"
 alias la="ls -a"
 alias lla="ls -la"

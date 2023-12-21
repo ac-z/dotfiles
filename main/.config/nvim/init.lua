@@ -1,4 +1,22 @@
 
+-- Terminal settings
+vim.api.nvim_command("autocmd TermOpen * startinsert")             -- starts in insert mode
+vim.api.nvim_command("autocmd TermOpen * setlocal nonumber")       -- no numbers
+vim.api.nvim_command("autocmd TermEnter * setlocal signcolumn=no") -- no sign column
+-- You can also press <C-w><esc> to go to normal mode
+vim.keymap.set('t', '<C-w>', "<C-\\><C-n><C-w>") -- make <C-w> work in terminal mode
+-- Colors
+vim.api.nvim_command("hi IblIndent guifg=#505050") -- 
+vim.api.nvim_command("hi IblScope guifg=#909090") -- 
+-- Disable middle click paste
+vim.keymap.set('n', '<MiddleMouse>', '<Nop>')
+vim.keymap.set('n', '<1-MiddleMouse>', '<Nop>')
+vim.keymap.set('n', '<2-MiddleMouse>', '<Nop>')
+vim.keymap.set('n', '<3-MiddleMouse>', '<Nop>')
+vim.keymap.set('n', '<4-MiddleMouse>', '<Nop>')
+-- split new terminal with alt+enter
+vim.keymap.set('n', '<M-CR>', ':split +term<CR>')
+
 --
 -- Lazy.nvim bootstrap
 --
@@ -107,6 +125,13 @@ require("lazy").setup(
         })
       end
     },
+    { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {},
+      config = function()
+        require("ibl").setup({
+          indent = { char = "▏" }, 
+        })
+      end
+    },
     { "folke/which-key.nvim",
       event = "VeryLazy",
       init = function()
@@ -120,34 +145,23 @@ require("lazy").setup(
       }
     },
     "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
+    { "williamboman/mason-lspconfig.nvim", lazy = false },
+    "rust-lang/rust.vim",
     "hrsh7th/cmp-nvim-lsp",
     { "folke/trouble.nvim",
       opts = { icons = false },
     },
-    "nvim-treesitter/nvim-treesitter",
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-path",
     "hrsh7th/cmp-cmdline",
-    "neovim/nvim-lspconfig",
+    { "nvim-treesitter/nvim-treesitter", lazy = false },
+    { "neovim/nvim-lspconfig", lazy = false },
     -- Extra features
     { 'chomosuke/term-edit.nvim',
       lazy = false,
       version = '1.3',
       config = function()
         require 'term-edit'.setup({ prompt_end = ' > ' })
-      end
-    },
-    { "HampusHauffman/block.nvim",
-      config = function()
-        require("block").setup({
-          depth = 4,
-          colors = {
-            "#000000",
-            "#1A1A1A",
-          },
-          automatic = false,
-        })
       end
     },
     { "Exafunction/codeium.nvim",
@@ -187,6 +201,12 @@ require("mason-lspconfig").setup_handlers {
         },
       },
     }
+  end,
+  ["rust_analyzer"] = function ()
+    local lspconfig = require('lspconfig')
+    lspconfig.rust_analyzer.setup({
+      root_dir = lspconfig.util.root_pattern('Cargo.toml'),
+    })
   end
 }
 
@@ -220,25 +240,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end, opts)
   end,
 })
-
---
--- Other stuff
---
-
--- Terminal settings
-vim.api.nvim_command("autocmd TermOpen * startinsert")             -- starts in insert mode
-vim.api.nvim_command("autocmd TermOpen * setlocal nonumber")       -- no numbers
-vim.api.nvim_command("autocmd TermEnter * setlocal signcolumn=no") -- no sign column
-vim.keymap.set('t', '<C-w>', "<C-\\><C-n><C-w>") -- make <C-w> work in terminal mode
--- You can also press <C-w><esc> to go to normal mode
-
--- split new terminal with alt+enter
-vim.keymap.set('n', '<M-CR>', ':split<CR> :term<CR>')
-
--- Reload Block highlighting on edits
-vim.api.nvim_command("autocmd TextChanged * exec 'Block' | Block") -- no sign column
-vim.api.nvim_command("autocmd TextChangedI * exec 'Block' | Block") -- no sign column
-vim.api.nvim_command("autocmd TextChangedP * exec 'Block' | Block") -- no sign column
 
 -- Load ~/.vimrc, for all vanilla vim-compatible configuration
 vim.cmd("source ~/.vimrc")
