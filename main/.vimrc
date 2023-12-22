@@ -26,6 +26,7 @@ hi LineNr    guifg=#000000 guibg=#f2a400 gui=Bold
 hi Pmenu     guifg=#f2a400 guibg=#303030 
 hi PmenuSel  guifg=#000000 guibg=#f2a400 gui=Bold
 hi VertSplit guifg=#000000 guibg=#f2a400 gui=Bold
+hi TabLine   guifg=#000000 guibg=#f2a400 gui=none
 " Syntax
 hi String guifg=yellowgreen
 hi Comment guifg=gray
