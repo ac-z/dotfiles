@@ -32,14 +32,6 @@ short_pwd() {
   echo "$PRE$NAME"
 }
 
-gitbranch() {
-  branch_id=$(git branch 2>/dev/null | grep '^*' | cut -c 2-)
-  if [ $branch_id ]
-  then
-    printf $branch_id
-  fi
-}
-
 function current_user() {
   if [ -n "$USER" ]; then
     printf "$USER"
@@ -74,13 +66,15 @@ prompt_cmd() {
     *) local prompt_code="($?)" ;;
   esac
 
-  # Show git branch, and color it based on status
-  local git_branch="$(gitbranch)"
-  if [[ "$git_branch" ]]; then
-    if [[ $(git status --porcelain) ]]; then
-      local git_branch_color=$(rgb_fg_ps1 $red)
+  # if we're in a git repo
+  if git status --porcelain &>/dev/null; then
+    # Show git branch, and color it based on status
+    local git_branch="$(git branch --show-current)($(git status --porcelain | awk '{print substr($1,1,1)}' | sort -u | tr -d "\n"))"
+    # Different color if status is dirty
+    if [[ $git_branch =~ [MTADRU] ]]; then
+      local git_branch="$(rgb_fg_ps1 $red)$git_branch"
     else
-      local git_branch_color=$(rgb_fg_ps1 $orange)
+      local git_branch="$(rgb_fg_ps1 $orange)$git_branch"
     fi
   fi
 
@@ -88,7 +82,7 @@ prompt_cmd() {
 
   local max_dir_length="32"
   local LINE_1A="$(rgb_fg_ps1 $orange)$(current_user)$(rgb_fg_ps1 $gray)@$(rgb_fg_ps1 $hostname_color)$HOSTNAME"
-  local LINE_1B="$(rgb_fg_ps1 $gray):$(short_pwd $max_dir_length) $git_branch_color$git_branch"
+  local LINE_1B="$(rgb_fg_ps1 $gray):$(short_pwd $max_dir_length) $git_branch"
   local LINE_1="${LINE_1A}${LINE_1B}"
   # Get an escape-codeless raw string, representing the true length of LINE_1
   local LINE_1_TEXT="$(echo "${NEWLINE_BLOCK}${LINE_1}" | sed -e "s/$(echo -e "\e")[^m]*m//g" -e 's/\\//g' -e 's/\[//g' -e 's/]//g')"
