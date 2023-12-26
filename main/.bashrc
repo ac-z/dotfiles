@@ -91,4 +91,4 @@ source_if_exists /usr/share/bash-completion/bash_completion
 source_if_exists $PREFIX/share/bash-completion/bash_completion
 
 # Prompt
-. ~/.bash_prompt
+. _bash_prompt
