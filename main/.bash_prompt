@@ -61,6 +61,12 @@ orange="#f2a400"
 gray="#787878"
 red="#ff0000"
 
+if (grep -q "Arch Linux" /etc/os-release); then
+    hostname_color="#00aaff"
+else
+    hostname_color="$orange"
+fi
+
 prompt_cmd() {
   # Show status code
   case $? in 
@@ -81,7 +87,7 @@ prompt_cmd() {
   local NEWLINE_BLOCK="\r\n$(rgb_bg_ps1 $orange)  $(no_color_ps1) "
 
   local max_dir_length="32"
-  local LINE_1A="$(rgb_fg_ps1 $orange)$(current_user)$(rgb_fg_ps1 $gray)@$(rgb_fg_ps1 $orange)$HOSTNAME"
+  local LINE_1A="$(rgb_fg_ps1 $orange)$(current_user)$(rgb_fg_ps1 $gray)@$(rgb_fg_ps1 $hostname_color)$HOSTNAME"
   local LINE_1B="$(rgb_fg_ps1 $gray):$(short_pwd $max_dir_length) $git_branch_color$git_branch"
   local LINE_1="${LINE_1A}${LINE_1B}"
   # Get an escape-codeless raw string, representing the true length of LINE_1

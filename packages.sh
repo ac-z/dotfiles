@@ -4,6 +4,7 @@
 
 universal_packages='
   git
+  vim
   stow
   zip
   unzip
@@ -14,15 +15,10 @@ universal_packages='
   screen
   bash-completion
   wget
-  starship
-  ripgrep
-  fd
-  neovim
   openssh
   python-pip
 '
 pipx_packages='
-  neovim-remote
 '
 
 ## Arch-Specific packages
@@ -32,6 +28,9 @@ arch_packages='
   man-db
   npm
   xdg-utils
+  ripgrep
+  fd
+  neovim
   wl-clipboard
   foot-terminfo
   python-pipx
@@ -40,6 +39,7 @@ arch_packages="$arch_packages $universal_packages"
 
 aur_packages='
   walk-bin
+  page-git
 '
 # For installing from URL
 arch_package_urls='
@@ -47,6 +47,7 @@ arch_package_urls='
 # Architecture-specific Arch packages
 arch_x86_64_packages='
   code
+  firefox
 '
 case $(uname -m) in
   x86_64) 
@@ -74,7 +75,6 @@ termux_packages="$termux_packages $universal_packages"
 
 fedora_ostree_layers='
   distrobox
-  starship
   sway-config-fedora
   mako
   libvirt

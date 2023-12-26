@@ -65,13 +65,10 @@ add_usrprefix "${HOME}/.local"
 # If Neovim is installed
 if hash "nvim" &>/dev/null; then
 	export EDITOR="nvim -O"
-	# Neovim-remote editing support
-	if hash "nvr" &>/dev/null; then
-		export NVR_CMD=$EDITOR
-		if [ -n "$NVIM" ]; then
-			export EDITOR="nvr --remote -so"
-		fi
-	fi
+    export MANPAGER="nvim +Man!"
+    if hash "page" &>/dev/null; then
+        export PAGER="page"
+    fi
 # If Neovim is not installed
 elif hash "vim" &>/dev/null; then
 	export EDITOR="vim -O"

@@ -35,6 +35,15 @@ require("lazy").setup(
   -- Plugins table
   {
     -- Essential tools
+      {
+        "willothy/flatten.nvim",
+        config = true,
+        -- or pass configuration with
+        -- opts = {  }
+        -- Ensure that it runs first to minimize delay when opening file from terminal
+        lazy = false,
+        priority = 1001,
+      },
     { 'nvim-telescope/telescope.nvim',
       tag = '0.1.4',
       dependencies = { 'nvim-lua/plenary.nvim' }
@@ -156,6 +165,15 @@ require("lazy").setup(
     "hrsh7th/cmp-cmdline",
     { "nvim-treesitter/nvim-treesitter", lazy = false },
     { "neovim/nvim-lspconfig", lazy = false },
+    {
+      "amrbashir/nvim-docs-view",
+      lazy = true,
+      cmd = "DocsViewToggle",
+      opts = {
+        position = "right",
+        width = 60
+      }
+    },
     -- Extra features
     { 'chomosuke/term-edit.nvim',
       lazy = false,
