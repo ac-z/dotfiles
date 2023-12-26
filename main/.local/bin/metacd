@@ -1,0 +1,50 @@
+#!/bin/bash
+#
+# Meta-cd
+# Stores a meta-working-direcgory in a temp location
+# Launch any programs from a shared working directory
+
+# If the temp file doesn't exist, create it
+file="$XDG_RUNTIME_DIR/meta_pwd.env"
+if [ ! -f "$file" ]; then
+    echo "META_PWD=$HOME" > $file
+fi
+
+. $file 
+cd $META_PWD
+
+function meta_cd() {
+    cd $(realpath $1)
+    echo "META_PWD=$PWD" > $file
+    # Send a notification 
+    notify-send -t 2000 -u low "Changed meta-working-directory to:" "$PWD"
+    # Send signal 4 to a custom module on waybar
+    if [ $(pgrep waybar) ]; then
+        kill -s SIGRTMIN+4 $(pgrep waybar) 
+    fi
+}
+
+case "$1" in
+    "")
+        echo "META_PWD=$HOME" > $file 
+    ;;
+    -e)
+        # Exec the given command in working dir
+        shift
+        exec "$@"
+    ;;
+    -p)
+        # Print working dir (With tilde home)
+        echo $META_PWD | sed -e "s|$HOME|~|"
+    ;;
+    -m)
+        # Create dmenu-style menu for changing directory
+        if path=$(tree -ifd --noreport | tail -n +2 | grep -ve "->" | rofi -dmenu -i -p "cd"); then
+            meta_cd $(echo $path | sed -e "s|~|$HOME|")
+        fi
+    ;;
+    *)
+        meta_cd $1
+    ;;
+esac
+
