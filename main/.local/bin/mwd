@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Meta-cd
+# Meta-working-directory (mwd)
 # Stores a meta-working-direcgory in a temp location
 # Launch any programs from a shared working directory
 
@@ -25,26 +25,29 @@ function meta_cd() {
 }
 
 case "$1" in
-    "")
-        echo "META_PWD=$HOME" > $file 
-    ;;
-    -e)
+    -e | --exec)
         # Exec the given command in working dir
         shift
         exec "$@"
     ;;
-    -p)
+    -p | --pwd)
         # Print working dir (With tilde home)
         echo $META_PWD | sed -e "s|$HOME|~|"
     ;;
-    -m)
-        # Create dmenu-style menu for changing directory
-        if path=$(tree -ifd --noreport | tail -n +2 | grep -ve "->" | rofi -dmenu -i -p "cd"); then
+    -m | --menu)
+        #         # List files recursively from the current dir
+        #         |                      # Remove the first line, which should only be "." anyway
+        #         |                      |            # Remove "->" from output
+        #         |                      |            |               # Add "~" as the first menu option with sed
+        #         V                      V            V               V                 # Create dmenu-style menu for changing directory
+        if path=$(tree -ifd --noreport | tail -n +2 | grep -ve "->" | sed "1s/^/~\n/" | rofi -dmenu -i -p "cd "); then
             meta_cd $(echo $path | sed -e "s|~|$HOME|")
         fi
     ;;
-    *)
-        meta_cd $1
+    -c | --cd | *)
+        # if $1 is -c or --cd, shift
+        [[ $1 == "-c" || $1 == "--cd" ]] && shift
+        meta_cd "$1"
     ;;
 esac
 

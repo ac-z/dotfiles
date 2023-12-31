@@ -8,8 +8,8 @@ set $up k
 set $right l
 
 # Meta-cd
-set $mcd_prefix $HOME/.local/bin/metacd -e
-set $mcd_cdmenu $HOME/.local/bin/metacd -m
+set $mcd_prefix $HOME/.local/bin/mwd --exec
+set $mcd_cdmenu $HOME/.local/bin/mwd --menu
 bindsym $mod+grave exec $mcd_cdmenu
 
 set $term $mcd_prefix foot

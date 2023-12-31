@@ -5,7 +5,7 @@
     // "width": 1280, // Waybar width
     "spacing": 4, // Gaps between modules (4px)
     // Choose the order of the modules
-    "modules-left": ["clock", "sway/mode", "custom/media", "tray", "sway/scratchpad", "idle_inhibitor", "sway/workspaces", "custom/metacd"],
+    "modules-left": ["clock", "sway/mode", "custom/media", "tray", "sway/scratchpad", "idle_inhibitor", "sway/workspaces", "custom/mwd"],
     "modules-center": [ "memory", "cpu", "temperature", "custom/power_profile" ],
     "modules-right": ["mpd", "keyboard-state", "pulseaudio", "backlight", "network", "battery"],
     // Modules configuration
@@ -39,9 +39,9 @@
             "default": "◻"
         }
     },
-    "custom/metacd": {
+    "custom/mwd": {
         "format": " {}",
-        "exec": "$HOME/.local/bin/metacd -p",
+        "exec": "$HOME/.local/bin/mwd --pwd",
         "signal": 4,
     },
     "keyboard-state": {
