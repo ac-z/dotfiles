@@ -43,6 +43,8 @@ titlebar_padding 8 0
 output * bg "/var/home/opticaldisc/Pictures/Solar Eclipse5.png" fill
 output * scale 1.75
 
+mouse_warping none
+
 ### Input configuration
 input "1739:31251:SYNA2393:00_06CB:7A13_Touchpad" {
     dwt enabled
