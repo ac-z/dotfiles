@@ -10,7 +10,33 @@
 # Default name for new arch container
 arch_container_name="devbox"
 
-alias e=\$EDITOR
+function e {
+    case $EDITOR in
+        nvim*)
+            local command="$EDITOR"
+            # If any arguments start with :, group all remaining arguments together
+            while [ "$1" != "" ]; do
+                if [[ ! $1 == :* ]]; then
+                    command+=" $1"
+                else
+                    # If $NVIM exists
+                    if [ "$NVIM" != "" ]; then
+                        command+=" --cmd \"$1\""
+                    else
+                        command+=" -c \"$1\""
+                    fi
+                fi
+                shift
+            done
+
+            # Don't let the escaped quotes get included in the args, use eval
+            eval $command
+        ;;
+        *)
+            $EDITOR $@
+        ;;
+    esac
+}
 alias ls="ls -h --color=always --group-directories-first"
 alias ll="ls -l"
 alias la="ls -a"
