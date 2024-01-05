@@ -136,6 +136,7 @@ require("lazy").setup(
             changedelete = { text = '~' },
             untracked    = { text = '+' },
           },
+          numhl = true
         }
       end
     },
