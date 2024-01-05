@@ -15,12 +15,12 @@ function e {
         nvim*)
             local command="$EDITOR"
             # If any arguments start with :, group all remaining arguments together
-            while [ "$1" != "" ]; do
+            while [[ "$1" != "" ]]; do
                 if [[ ! $1 == :* ]]; then
                     command+=" $1"
                 else
                     # If $NVIM exists
-                    if [ "$NVIM" != "" ]; then
+                    if [[ "$NVIM" != "" ]]; then
                         command+=" --cmd \"$1\""
                     else
                         command+=" -c \"$1\""
