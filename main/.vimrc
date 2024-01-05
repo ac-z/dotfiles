@@ -12,6 +12,7 @@ set laststatus=2
 set tabstop=4
 set shiftwidth=4
 set expandtab
+set signcolumn=auto:1
 syntax on
 
 " Cursor shape
@@ -21,12 +22,17 @@ let &t_EI = "\<Esc>[2 q"
 
 """ Colors
 " UI elements
-hi Normal    guifg=#f2a400 guibg=#000000 gui=Bold
-hi LineNr    guifg=#000000 guibg=#f2a400 gui=Bold
-hi Pmenu     guifg=#f2a400 guibg=#303030 
-hi PmenuSel  guifg=#000000 guibg=#f2a400 gui=Bold
-hi VertSplit guifg=#000000 guibg=#f2a400 gui=Bold
-hi TabLine   guifg=#000000 guibg=#f2a400 gui=none
+hi Normal     guifg=#f2a400 guibg=#000000 gui=Bold
+hi LineNr     guifg=#000000 guibg=#f2a400 gui=Bold
+hi Pmenu      guifg=#f2a400 guibg=#303030 
+hi PmenuSel   guifg=#000000 guibg=#f2a400 gui=Bold
+hi VertSplit  guifg=#000000 guibg=#f2a400 gui=Bold
+hi TabLine    guifg=#000000 guibg=#f2a400 gui=none
+hi SignColumn guibg=#f2a400
+" Diff
+hi DiffAdd    guifg=#FFFFFF guibg=#009000 gui=Bold
+hi DiffChange guifg=#000000 guibg=#FFFF00 gui=Bold
+hi DiffDelete guifg=#FFFFFF guibg=#D00000 gui=Bold
 " Syntax
 hi String guifg=yellowgreen
 hi Comment guifg=gray
