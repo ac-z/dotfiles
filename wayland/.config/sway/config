@@ -24,7 +24,7 @@ set $menu \
 set $mcd_cdmenu $HOME/.local/bin/mwd --menu
 bindsym $mod+grave exec $mcd_cdmenu
 #bindsym $mod+$alt+grave exec $term -e archbox.sh -e "" nvim
-bindsym $mod+$alt+grave exec $term -e $HOME/.local/bin/archbox.sh -e arch-devbox nvim +term
+bindsym $mod+$alt+grave exec $term -e $HOME/.local/bin/archbox.sh -e arch-devbox nvim
 
 ### Colors
 set $maincolor #f2a400
