@@ -8,7 +8,7 @@
 ##############
 
 # Default name for new arch container
-arch_container_name="devbox"
+export arch_container_name="devbox"
 
 function e {
     case $EDITOR in
@@ -54,6 +54,16 @@ function ea {
 		bash archbox.sh --enter "arch-${1:-$arch_container_name}"
 	fi
 }
+
+#################
+### TTY stuff ###
+#################
+if [ "$TERM" = "linux" ]; then
+  # if file /lib/kbd/consolefonts/ter-228b.psf.gz exists, use it
+  if [ -f /lib/kbd/consolefonts/ter-228b.psf.gz ]; then
+    setfont /lib/kbd/consolefonts/ter-228b.psf.gz
+  fi
+fi
 
 #################
 ### Dev tools ###

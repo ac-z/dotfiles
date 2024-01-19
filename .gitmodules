@@ -1,3 +1,6 @@
 [submodule "private"]
 	path = private
 	url = git@github.com:amb3r-dev/dotfiles-private.git
+[submodule "wayland/git/util/sway-launcher-desktop"]
+	path = wayland/git/util/sway-launcher-desktop
+	url = git@github.com:Biont/sway-launcher-desktop.git

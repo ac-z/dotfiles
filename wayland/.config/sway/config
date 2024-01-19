@@ -9,13 +9,22 @@ set $right l
 
 # Meta-cd
 set $mcd_prefix $HOME/.local/bin/mwd --exec
+
+# Terminal
+set $termcmd foot
+set $term $mcd_prefix $termcmd
+
+# Launcher
+for_window [app_id="^launcher$"] floating enable, sticky enable, resize set 30 ppt 60 ppt, border pixel 10
+set $menu \
+  TERMINAL_COMMAND=$termcmd \
+    $term -a launcher \
+          -e $HOME/.local/bin/term-launcher
+
 set $mcd_cdmenu $HOME/.local/bin/mwd --menu
 bindsym $mod+grave exec $mcd_cdmenu
-
-set $term $mcd_prefix foot
-
-set $rofi_cmd rofi -terminal '$term'
-set $menu $mcd_prefix $rofi_cmd -show combi -combi-modes drun#run -modes combi
+#bindsym $mod+$alt+grave exec $term -e archbox.sh -e "" nvim
+bindsym $mod+$alt+grave exec $term -e $HOME/.local/bin/archbox.sh -e arch-devbox nvim +term
 
 ### Colors
 set $maincolor #f2a400
@@ -26,7 +35,7 @@ set $gray #505050
 client.focused          $maincolor $maincolor $black     #FF0000 $maincolor
 client.focused_inactive	$gray      $gray      $maincolor #FF0000 $gray
 client.unfocused        $black     $black     $maincolor #FF0000 $black
-client.urgent           #ffffff    #ffffff    $black     #ffffff #ffffff
+client.urgent           #eb4d4b    #eb4d4b    $black     #ffffff #eb4d4b
 client.placeholder      #000000    #000000    #ffffff    #000000 #000000
 client.background       #000000
 
@@ -59,7 +68,7 @@ input "1:1:AT_Translated_Set_2_keyboard" {
     bindsym $mod+Return exec $term
 
     # Start a terminal in distrobox
-    bindsym $mod+$alt+Return exec $term -e distrobox-enter arch-devbox
+    bindsym $mod+$alt+Return exec $term -e $HOME/.local/bin/archbox.sh -e arch-devbox
 
     # Kill focused window
     bindsym $mod+$alt+q kill

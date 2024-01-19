@@ -11,6 +11,13 @@ else
   exit 1
 fi
 
+source $HOME/.bashrc
+
+# If $arch_container_name is already set, add "arch-" to it
+if [ ! -z "$arch_container_name" ]; then
+  arch_container_name="arch-$arch_container_name"
+fi
+
 # Minor functions
 while true; do
   case "$1" in
@@ -32,6 +39,8 @@ while true; do
     ;;
     -e|--enter) 
       shift
+      [ -z "$1" ] && echo $?
+      echo $arch_container_name
       case "$mode" in
         distrobox) distrobox enter "${1:-$arch_container_name}" -- ${2:-bash} ${@:3} ;;
         proot-distro) proot-distro login "${1:-$arch_container_name}" --user $(cat $HOME/.archbox_user) --termux-home -- ${2:-sh -c bash} ${@:3} ;;
