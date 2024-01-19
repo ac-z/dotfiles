@@ -3,19 +3,22 @@
 vim.api.nvim_command("autocmd TermOpen * startinsert")             -- starts in insert mode
 vim.api.nvim_command("autocmd TermOpen * setlocal nonumber")       -- no numbers
 vim.api.nvim_command("autocmd TermEnter * setlocal signcolumn=no") -- no sign column
--- You can also press <C-w><esc> to go to normal mode
-vim.keymap.set('t', '<C-w>', "<C-\\><C-n><C-w>") -- make <C-w> work in terminal mode
--- Colors
-vim.api.nvim_command("hi IblIndent guifg=#505050") -- 
-vim.api.nvim_command("hi IblScope guifg=#909090") -- 
--- Disable middle click paste
-vim.keymap.set('n', '<MiddleMouse>', '<Nop>')
-vim.keymap.set('n', '<1-MiddleMouse>', '<Nop>')
-vim.keymap.set('n', '<2-MiddleMouse>', '<Nop>')
-vim.keymap.set('n', '<3-MiddleMouse>', '<Nop>')
-vim.keymap.set('n', '<4-MiddleMouse>', '<Nop>')
 -- split new terminal with alt+enter
 vim.keymap.set('n', '<M-CR>', ':split +term<CR>')
+-- C-W works in terminals
+-- You can also press <C-w><esc> to go to normal mode
+vim.keymap.set('t', '<C-w>', "<C-\\><C-n><C-w>") -- make <C-w> work in terminal mode
+
+-- Diagnostics toggle
+vim.api.nvim_create_user_command("DiagnosticToggle", function()
+  local config = vim.diagnostic.config
+  local vt = config().virtual_text
+  config {
+    virtual_text = not vt,
+    underline = not vt,
+    signs = not vt,
+  }
+end, {})
 
 --
 -- Lazy.nvim bootstrap
@@ -37,9 +40,7 @@ require("lazy").setup(
     -- Essential tools
       {
         "willothy/flatten.nvim",
-        config = true,
-        -- or pass configuration with
-        -- opts = {  }
+        opts = { window = { open = "split" } },
         -- Ensure that it runs first to minimize delay when opening file from terminal
         lazy = false,
         priority = 1001,
@@ -132,12 +133,21 @@ require("lazy").setup(
             add          = { text = '+' },
             change       = { text = '~' },
             delete       = { text = '-' },
-            topdelete    = { text = '^' },
-            changedelete = { text = '~' },
+            topdelete    = { text = '-^' },
+            changedelete = { text = '~-' },
             untracked    = { text = '+' },
           },
           numhl = true
         }
+        vim.api.nvim_create_user_command('GitAddThis',     'Gitsigns stage_hunk', {})
+        vim.api.nvim_create_user_command('GitAddBuf',      'Gitsigns stage_buffer', {})
+        vim.api.nvim_create_user_command('GitResetThis',   'Gitsigns reset_hunk', {})
+        vim.api.nvim_create_user_command('GitResetBuf',    'Gitsigns reset_buffer', {})
+        vim.api.nvim_create_user_command('GitDiffThis',    'Gitsigns preview_hunk', {})
+        vim.api.nvim_create_user_command('GitDiff',        'Gitsigns diffthis', {})
+        vim.api.nvim_create_user_command('GitBlame',       'Gitsigns blame_line', {})
+        vim.api.nvim_create_user_command('GitStatus',      'split +term\\ git\\ status', {})
+        vim.api.nvim_create_user_command('GitToggleDeleted', 'Gitsigns toggle_deleted', {})
       end
     },
     { "kylechui/nvim-surround",
@@ -151,6 +161,9 @@ require("lazy").setup(
     },
     { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {},
       config = function()
+        vim.api.nvim_command("hi IblIndent guifg=#505050") -- 
+        vim.api.nvim_command("hi IblWhitespace guifg=#505050") -- 
+        vim.api.nvim_command("hi IblScope guifg=#909090") -- 
         require("ibl").setup({
           indent = { char = "▏" }, 
         })
@@ -159,8 +172,35 @@ require("lazy").setup(
     { "folke/which-key.nvim",
       event = "VeryLazy",
       init = function()
-      vim.o.timeout = true
-      vim.o.timeoutlen = 300
+        vim.o.timeout = true
+        vim.o.timeoutlen = 300
+        require("which-key").register({
+          t = { name = "Telescope",
+            t = { "<cmd>Telescope<cr>", "Telescope" },
+            g = { "<cmd>Telescope live_grep<cr>", "Live Grep" },
+            f = { "<cmd>Telescope find_files<cr>", "Files" },
+            b = { "<cmd>Telescope buffers<cr>", "Buffers" },
+          },
+          l = { name = "LSP",
+            t = { "<cmd>DiagnosticToggle<cr>", "Toggle diagnostic warnings." },
+            D = { "Go to declaration" },
+            a = { "Code action" },
+            r = { "Rename" },
+            f = { "Format" },
+          },
+          g = { name = "Git",
+            a = { "<cmd>GitAddThis<cr>", "Stage selected hunk." },
+            A = { "<cmd>GitAddBuf<cr>", "Stage all changes in the current buffer." },
+            r = { "<cmd>GitResetThis<cr>", "Reset selected hunk." },
+            R = { "<cmd>GitResetBuf<cr>", "Reset all changes in the current buffer." },
+            d = { "<cmd>GitDiffThis<cr>", "Show diff for the selected hunk." },
+            D = { "<cmd>GitDiff<cr>", "Show diff for the whole buffer." },
+            b = { "<cmd>GitBlame<cr>", "View the commit that last changed the current line." },
+            s = { "<cmd>GitStatus<cr>", "Show status" },
+            t = { "<cmd>GitToggleDeleted<cr>", "Toggle deleted lines" },
+          },
+          ["<Leader>"] = { "<cmd>TroubleToggle<cr>", "View warnings and errors." },
+        }, { prefix = "<leader>" })
       end,
       opts = {
         -- your configuration comes here
@@ -180,15 +220,6 @@ require("lazy").setup(
     "hrsh7th/cmp-cmdline",
     { "nvim-treesitter/nvim-treesitter", lazy = false },
     { "neovim/nvim-lspconfig", lazy = false },
-    {
-      "amrbashir/nvim-docs-view",
-      lazy = true,
-      cmd = "DocsViewToggle",
-      opts = {
-        position = "right",
-        width = 60
-      }
-    },
     -- Extra features
     { 'chomosuke/term-edit.nvim',
       lazy = false,
@@ -228,7 +259,10 @@ require("mason-lspconfig").setup_handlers {
           -- Get the language server to recognize the `vim` global
           diagnostics = { globals = { 'vim','require' } },
           -- Make the server aware of Neovim runtime files
-          workspace = { library = vim.api.nvim_get_runtime_file("", true) },
+          workspace = {
+            library = vim.api.nvim_get_runtime_file("", true),
+            checkThirdParty = false,
+          },
           -- Do not send telemetry data containing a randomized but unique identifier
           telemetry = { enable = false },
         },
@@ -237,9 +271,34 @@ require("mason-lspconfig").setup_handlers {
   end,
   ["rust_analyzer"] = function ()
     local lspconfig = require('lspconfig')
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    capabilities.experimental = {
+      localDocs = true,
+    }
     lspconfig.rust_analyzer.setup({
       root_dir = lspconfig.util.root_pattern('Cargo.toml'),
+      capabilities = capabilities,
+      on_attach = setup_lsp_keymaps,
+      commands = {
+        RustOpenDocs = {
+          function()
+            vim.lsp.buf_request(vim.api.nvim_get_current_buf(), 'experimental/externalDocs', vim.lsp.util.make_position_params(), function(err, url)
+              if err then
+                error(tostring(err))
+              else
+                if url["local"] == nil then
+                  vim.fn['netrw#BrowseX'](url["web"], 0)
+                else
+                  vim.fn['netrw#BrowseX'](url["local"], 0)
+                end
+              end
+            end)
+          end,
+          description = 'Open documentation for the symbol under the cursor in default browser',
+        },
+      },
     })
+    vim.keymap.set('n', '<C-S-k>', vim.cmd.RustOpenDocs)
   end
 }
 
@@ -259,18 +318,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
     vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
-    vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
-    vim.keymap.set('n', '<space>wl', function()
-      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, opts)
-    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
-    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
-    vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
+    vim.keymap.set('n', '<Leader>lD', vim.lsp.buf.type_definition, opts)
+    vim.keymap.set('n', '<Leader>lr', vim.lsp.buf.rename, opts)
+    vim.keymap.set('n', '<Leader>lf', function() vim.lsp.buf.format { async = true } end, opts)
+    vim.keymap.set({ 'n', 'v' }, '<Leader>la', vim.lsp.buf.code_action, opts)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-    vim.keymap.set('n', '<space>f', function()
-      vim.lsp.buf.format { async = true }
-    end, opts)
   end,
 })
 

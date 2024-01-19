@@ -13,7 +13,16 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 set signcolumn=auto
+set mouse=nvi
 syntax on
+let g:netrw_browsex_viewer="firefox --private-window"
+
+""" Mappings
+let g:mapleader=' '
+nmap <MiddleMouse> <Nop>
+nmap <2-MiddleMouse> <Nop>
+nmap <3-MiddleMouse> <Nop>
+nmap <4-MiddleMouse> <Nop>
 
 " Cursor shape
 let &t_SI = "\<Esc>[6 q"
@@ -22,17 +31,25 @@ let &t_EI = "\<Esc>[2 q"
 
 """ Colors
 " UI elements
-hi Normal     guifg=#f2a400 guibg=#000000 gui=Bold
-hi LineNr     guifg=#000000 guibg=#f2a400 gui=Bold
-hi Pmenu      guifg=#f2a400 guibg=#303030 
-hi PmenuSel   guifg=#000000 guibg=#f2a400 gui=Bold
-hi VertSplit  guifg=#000000 guibg=#f2a400 gui=Bold
-hi TabLine    guifg=#000000 guibg=#f2a400 gui=none
-hi SignColumn guibg=#f2a400
+hi Normal       guifg=#f2a400 guibg=#000000 gui=Bold
+
+hi LineNr       guifg=bg      guibg=fg gui=Bold    ctermbg=7  ctermfg=0 cterm=Bold
+hi SignColumn   guibg=fg      guifg=bg gui=Bold    ctermbg=7  ctermfg=0 cterm=Bold
+
+hi VertSplit    guifg=bg      guibg=fg gui=Bold    ctermbg=0  ctermfg=7
+hi TabLine      guifg=bg      guibg=fg gui=none    ctermbg=7  ctermfg=0 cterm=none
+hi TabLineSel   guifg=fg      guibg=bg gui=none    ctermbg=0  ctermfg=7
+
+hi StatusLine   guibg=fg      guifg=bg gui=Bold    ctermbg=1  ctermfg=15 cterm=bold 
+hi StatusLineNC guibg=#303030 guifg=fg gui=Bold    ctermbg=7  ctermfg=0 cterm=none
+
+hi Pmenu        guifg=fg      guibg=#303030        ctermbg=5 ctermfg=0
+hi PmenuSel     guifg=bg      guibg=fg gui=Bold    ctermbg=7  ctermfg=0
+
 " Diff
-hi DiffAdd    guifg=#FFFFFF guibg=#009000 gui=Bold
-hi DiffChange guifg=#000000 guibg=#FFFF00 gui=Bold
-hi DiffDelete guifg=#FFFFFF guibg=#D00000 gui=Bold
+hi DiffAdd    guifg=#FFFFFF guibg=#009000 gui=Bold ctermbg=2 ctermfg=15
+hi DiffChange guifg=#000000 guibg=#FFFF00 gui=Bold ctermbg=3 ctermfg=0
+hi DiffDelete guifg=#FFFFFF guibg=#D00000 gui=Bold ctermbg=1 ctermfg=15
 " Syntax
 hi String guifg=yellowgreen
 hi Comment guifg=gray
