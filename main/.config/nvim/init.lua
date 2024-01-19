@@ -1,4 +1,7 @@
 
+-- Load ~/.vimrc, for all vanilla vim-compatible configuration
+vim.cmd("source ~/.vimrc")
+
 -- Terminal settings
 vim.api.nvim_command("autocmd TermOpen * startinsert")             -- starts in insert mode
 vim.api.nvim_command("autocmd TermOpen * setlocal nonumber")       -- no numbers
@@ -325,6 +328,3 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
   end,
 })
-
--- Load ~/.vimrc, for all vanilla vim-compatible configuration
-vim.cmd("source ~/.vimrc")
