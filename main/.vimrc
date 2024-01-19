@@ -31,6 +31,7 @@ let &t_EI = "\<Esc>[2 q"
 
 """ Colors
 " UI elements
+colorscheme koehler
 hi Normal       guifg=#f2a400 guibg=#000000 gui=Bold
 
 hi LineNr       guifg=bg      guibg=fg gui=Bold    ctermbg=7  ctermfg=0 cterm=Bold
@@ -52,7 +53,7 @@ hi DiffChange guifg=#000000 guibg=#FFFF00 gui=Bold ctermbg=3 ctermfg=0
 hi DiffDelete guifg=#FFFFFF guibg=#D00000 gui=Bold ctermbg=1 ctermfg=15
 " Syntax
 hi String guifg=yellowgreen
-hi Comment guifg=gray
+hi Comment guifg=#909090
 " Only relevant to nvim
 hi DiagnosticWarn guifg=yellow gui=Bold,Reverse
 hi DiagnosticHint gui=Bold,Reverse
