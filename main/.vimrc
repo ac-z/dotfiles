@@ -14,6 +14,7 @@ set shiftwidth=4
 set expandtab
 set signcolumn=auto
 set mouse=nvi
+set shell=bash
 syntax on
 let g:netrw_browsex_viewer="firefox --private-window"
 " Only for TTY
