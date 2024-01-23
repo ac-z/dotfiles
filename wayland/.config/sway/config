@@ -32,7 +32,7 @@ set $black #303030
 set $gray #505050
 
 # class                 border     backgr.    text       indica. child_border
-client.focused          $maincolor $maincolor $black     #FF0000 $maincolor
+client.focused          $maincolor $maincolor #000000    #FF0000 $maincolor
 client.focused_inactive	$gray      $gray      $maincolor #FF0000 $gray
 client.unfocused        $black     $black     $maincolor #FF0000 $black
 client.urgent           #eb4d4b    #eb4d4b    $black     #ffffff #eb4d4b
@@ -50,7 +50,7 @@ titlebar_padding 8 0
 
 ### Output configuration
 output * bg "/var/home/opticaldisc/Pictures/Solar Eclipse5.png" fill
-output * scale 1.75
+output * scale 1.85
 
 mouse_warping none
 
