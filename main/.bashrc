@@ -62,6 +62,24 @@ if [ "$TERM" = "linux" ]; then
   # if file /lib/kbd/consolefonts/ter-228b.psf.gz exists, use it
   if [ -f /lib/kbd/consolefonts/ter-228b.psf.gz ]; then
     setfont /lib/kbd/consolefonts/ter-228b.psf.gz
+      /bin/echo -e "
+        \e]P0000000
+        \e]P1ce0000
+        \e]P200be00
+        \e]P3ffee00
+        \e]P43575ff
+        \e]P5923cff
+        \e]P600d991
+        \e]P7f2a400
+        \e]P8505050
+        \e]P9ff3e3e
+        \e]PA95d00f
+        \e]PBf2a400
+        \e]PC19bbfb
+        \e]PDdc00c8
+        \e]PE00ffd5
+        \e]PFffffff
+      "
   fi
 fi
 
