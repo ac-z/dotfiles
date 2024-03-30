@@ -4,3 +4,6 @@
 [submodule "wayland/git/util/sway-launcher-desktop"]
 	path = wayland/git/util/sway-launcher-desktop
 	url = git@github.com:Biont/sway-launcher-desktop.git
+[submodule "main/git/util/rsync-time-backup"]
+	path = main/git/util/rsync-time-backup
+	url = git@github.com:laurent22/rsync-time-backup.git
