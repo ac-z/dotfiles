@@ -4,7 +4,7 @@
 set number
 set numberwidth=4
 set nowrap
-set scrolloff=10
+set scrolloff=2
 set signcolumn=number
 set termguicolors
 set title
@@ -14,9 +14,9 @@ set shiftwidth=4
 set expandtab
 set signcolumn=auto
 set mouse=nvi
-set shell=bash
+set virtualedit=block
 syntax on
-let g:netrw_browsex_viewer="firefox --private-window"
+let g:netrw_browsex_viewer="setsid firefox -P development-profile"
 " Only for TTY
 if &term =~ 'linux'
     set notermguicolors
@@ -58,7 +58,7 @@ hi DiffAdd    guifg=#FFFFFF guibg=#009000 gui=Bold ctermbg=10 ctermfg=15 cterm=n
 hi DiffChange guifg=#000000 guibg=#FFFF00 gui=Bold ctermbg=11 ctermfg=0  cterm=none
 hi DiffDelete guifg=#FFFFFF guibg=#D00000 gui=Bold ctermbg=9  ctermfg=15 cterm=none
 " Syntax
-hi String guifg=yellowgreen ctermfg=2
+hi String guifg=yellowgreen ctermfg=10
 hi Comment guifg=#909090
 " Terminal colors
 let g:terminal_ansi_colors = ['#000000', '#ce0000', '#00be00', '#ffee00', '#3575ff', '#923cff', '#00d991', '#f2a400', '#505050', '#ff3e3e', '#95d00f', '#f2a400', '#19bbfb', '#dc00c8', '#00ffd5', '#ffffff']

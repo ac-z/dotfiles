@@ -2,12 +2,20 @@
 -- Load ~/.vimrc, for all vanilla vim-compatible configuration
 vim.cmd("source ~/.vimrc")
 
+--
+-- Right click
+--
+vim.cmd("aunmenu PopUp.How-to\\ disable\\ mouse")
+
+--
 -- Terminal settings
+--
 vim.api.nvim_command("autocmd TermOpen * startinsert")             -- starts in insert mode
 vim.api.nvim_command("autocmd TermOpen * setlocal nonumber")       -- no numbers
 vim.api.nvim_command("autocmd TermEnter * setlocal signcolumn=no") -- no sign column
 -- split new terminal with alt+enter
-vim.keymap.set('n', '<M-CR>', ':split +term<CR>')
+
+vim.keymap.set('n', '<C-S-CR>', ':vsplit +term<CR>')
 -- C-W works in terminals
 -- You can also press <C-w><esc> to go to normal mode
 vim.keymap.set('t', '<C-w>', "<C-\\><C-n><C-w>") -- make <C-w> work in terminal mode
@@ -41,13 +49,13 @@ require("lazy").setup(
   -- Plugins table
   {
     -- Essential tools
-      {
-        "willothy/flatten.nvim",
-        opts = { window = { open = "split" } },
-        -- Ensure that it runs first to minimize delay when opening file from terminal
-        lazy = false,
-        priority = 1001,
-      },
+    {
+      "willothy/flatten.nvim",
+      opts = { window = { open = "split" } },
+      -- Ensure that it runs first to minimize delay when opening file from terminal
+      lazy = false,
+      priority = 1001,
+    },
     { 'nvim-telescope/telescope.nvim',
       tag = '0.1.4',
       dependencies = { 'nvim-lua/plenary.nvim' }
@@ -85,6 +93,13 @@ require("lazy").setup(
             ['<C-f>'] = cmp.mapping.scroll_docs(4),
             ['<C-Space>'] = cmp.mapping.complete(),
             ['<CR>'] = cmp.mapping.confirm({ select = true }),
+            ['<C-x>'] = cmp.mapping.complete({
+              config = {
+                sources = cmp.config.sources({
+                  { name = 'cmp_ai' },
+                }),
+              },
+            })
           }),
           sources = {
             { name = "codeium" },
@@ -150,7 +165,7 @@ require("lazy").setup(
         vim.api.nvim_create_user_command('GitDiff',        'Gitsigns diffthis', {})
         vim.api.nvim_create_user_command('GitBlame',       'Gitsigns blame_line', {})
         vim.api.nvim_create_user_command('GitStatus',      'split +term\\ git\\ status', {})
-        vim.api.nvim_create_user_command('GitToggleDeleted', 'Gitsigns toggle_deleted', {})
+       vim.api.nvim_create_user_command('GitToggleDeleted', 'Gitsigns toggle_deleted', {})
       end
     },
     { "kylechui/nvim-surround",
@@ -168,7 +183,7 @@ require("lazy").setup(
         vim.api.nvim_command("hi IblWhitespace guifg=#505050") -- 
         vim.api.nvim_command("hi IblScope guifg=#909090") -- 
         require("ibl").setup({
-          indent = { char = "▏" }, 
+          indent = { char = "▏" },
         })
       end
     },
@@ -178,6 +193,9 @@ require("lazy").setup(
         vim.o.timeout = true
         vim.o.timeoutlen = 300
         require("which-key").register({
+          x = { "<cmd>BDelete hidden<cr>", "Delete hidden buffers." },
+          e = { "<cmd>Neotree toggle<cr>", "Explore files" },
+          E = { "<cmd>split +Neotree\\ position=current<cr>", "Explore files" },
           t = { name = "Telescope",
             t = { "<cmd>Telescope<cr>", "Telescope" },
             g = { "<cmd>Telescope live_grep<cr>", "Live Grep" },
@@ -216,7 +234,10 @@ require("lazy").setup(
     "rust-lang/rust.vim",
     "hrsh7th/cmp-nvim-lsp",
     { "folke/trouble.nvim",
-      opts = { icons = false },
+      opts = {
+        icons = false,
+        auto_preview = false,
+      },
     },
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-path",
@@ -224,11 +245,62 @@ require("lazy").setup(
     { "nvim-treesitter/nvim-treesitter", lazy = false },
     { "neovim/nvim-lspconfig", lazy = false },
     -- Extra features
+    { "kazhala/close-buffers.nvim" },
+    { "nvim-neo-tree/neo-tree.nvim",
+      branch = "v3.x",
+      dependencies = {
+        "nvim-lua/plenary.nvim",
+        "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+        "MunifTanjim/nui.nvim",
+        -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+      },
+      config = function()
+          require("neo-tree").setup({
+              window = {
+                  mappings = {
+                      ["s"] = "open_split",
+                      ["v"] = "open_vsplit",
+                      ["S"] = "",
+                  }
+              }
+          })
+      end
+    },
     { 'chomosuke/term-edit.nvim',
       lazy = false,
       version = '1.3',
       config = function()
         require 'term-edit'.setup({ prompt_end = ' > ' })
+      end
+    },
+    {
+      'tzachar/cmp-ai',
+      dependencies = 'nvim-lua/plenary.nvim',
+      config = function()
+        local cmp_ai = require('cmp_ai.config')
+	    cmp_ai:setup({
+          max_lines = 10,
+          provider = 'Ollama',
+          provider_options = {
+            base_url = 'http://10.0.0.42:11434/api/generate',
+            model = 'codellama:7b',
+            prompt = function (lines_before, lines_after)
+              instructions = "Only output code, don't explain."
+              return instructions .. ' <PRE> ' .. lines_before .. ' <SUF> ' .. lines_after .. ' <MID> '
+            end
+          },
+          prompt = false,
+          notify = true,
+          notify_callback = function(msg)
+            vim.notify(msg)
+          end,
+          run_on_every_keystroke = false,
+          ignored_file_types = {
+            -- default is not to ignore
+            -- uncomment to ignore in lua:
+            -- lua = true
+          },
+      	})
       end
     },
     { "Exafunction/codeium.nvim",

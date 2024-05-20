@@ -120,9 +120,6 @@ add_usrprefix "${HOME}/.local"
 if hash "nvim" &>/dev/null; then
 	export EDITOR="nvim -O"
     export MANPAGER="nvim +Man!"
-    if hash "page" &>/dev/null; then
-        export PAGER="page"
-    fi
 # If Neovim is not installed
 elif hash "vim" &>/dev/null; then
 	export EDITOR="vim -O"
