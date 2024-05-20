@@ -1,0 +1,81 @@
+# CLI
+tree-steve-baker:
+    ".*": "tree"
+tmux:
+    ".*": "tmux"
+screen:
+    ".*": "screen"
+ripgrep:
+    ".*": "(rust-)?ripgrep"
+fd-find:
+    ".*": "(rust-)?fd(-find)?"
+fzf:
+    ".*": "fzf"
+wget:
+    ".*": "wget2"
+jq:
+    ".*": "jq"
+yq-mikefarah:
+    ".*": "(go-)?yq"
+openssh:
+    ".*": "openssh(-client|-server|-keygen)?"
+bash-completion:
+    ".*": "bash-completion"
+
+# Scripting
+python:
+    ".*": "python3?"
+node:
+    ".*": "node(js)?"
+deno:
+    ".*": "deno"
+
+# Util
+stow:
+    ".*": "stow"
+htop:
+    ".*": "htop"
+ncdu:
+    ".*": "ncdu"
+
+# Dev
+git:
+    ".*": "git"
+neovim:
+    ".*": "neovim"
+    winget: "Neovim"
+podman:
+    ".*": "podman"
+    winget: "PodmanDesktop"
+distrobox:
+    ".*": "distrobox"
+shellcheck:
+    ".*": "shellcheck"
+    winget: "ShellCheck"
+rustup:
+    ".*": "rustup"
+    winget: "Rust"
+
+# Deps
+expat:
+    ".*": "(lib)?expat"
+openssl:
+    ".*": "openssl"
+
+# Termux-specific
+termux-tools:
+    ".*": ".*"
+termux-api:
+    ".*": ".*"
+proot-distro:
+    ".*": ".*"
+
+# Proprietary
+megacmd:
+    ".*": ".*"
+
++all:
+    # Get docs and bash completion on alpine
+    "alpine.*": ".*(-doc|-bash-completion)"
+    # Get mingw packages from msys2
+    "msys.*": "(mingw-w64-x86_64).*"
