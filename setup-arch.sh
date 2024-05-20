@@ -18,4 +18,4 @@ for url in $arch_package_urls; do
 done
 
 # Stow dotfiles 
-(cd $HOME/dotfiles && stow main termux)
+(cd $HOME/dotfiles && stow main termux || true)
