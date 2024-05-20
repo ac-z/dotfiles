@@ -2,8 +2,9 @@
     /* `otf-font-awesome` is required to be installed for icons */
     font-family: FontAwesome, Source Code Pro;
     font-weight: bold;
-    font-size: 11pt;
+    font-size: 10.5pt;
     padding: 0px;
+    margin: 0px;
 }
 
 window#waybar {
@@ -187,7 +188,7 @@ label:focus {
 }
 
 #custom-mwd {
-    color: #909090;
+    color: #B0B0B0;
 }
 
 #temperature {
