@@ -1,49 +1,51 @@
 # CLI
+git:
+    ".*": "git"
+openssh:
+    ".*": "openssh(-client|-server|-keygen)?"
+wget:
+    ".*": "wget2"
+rsync:
+    ".*": "rsync"
+rclone:
+    ".*": "rclone"
 tree-steve-baker:
     ".*": "tree"
 tmux:
     ".*": "tmux"
-screen:
-    ".*": "screen"
-ripgrep:
-    ".*": "(rust-)?ripgrep"
-fd-find:
-    ".*": "(rust-)?fd(-find)?"
-fzf:
-    ".*": "fzf"
-wget:
-    ".*": "wget2"
-jq:
-    ".*": "jq"
-yq-mikefarah:
-    ".*": "(go-)?yq"
-openssh:
-    ".*": "openssh(-client|-server|-keygen)?"
 bash-completion:
     ".*": "bash-completion"
-
-# Scripting
-python:
-    ".*": "python3?"
-node:
-    ".*": "node(js)?"
-deno:
-    ".*": "deno"
-
-# Util
 stow:
     ".*": "stow"
 htop:
     ".*": "htop"
 ncdu:
     ".*": "ncdu"
+vim:
+    ".*": "vim"
 
-# Dev
-git:
-    ".*": "git"
+# Edit + Search
 neovim:
     ".*": "neovim"
     winget: "Neovim"
+jq:
+    ".*": "jq"
+yq-mikefarah:
+    ".*": "(go-)?yq"
+ripgrep:
+    ".*": "(rust-)?ripgrep"
+fd-find:
+    ".*": "(rust-)?fd(-find)?"
+fzf:
+    ".*": "fzf"
+
+# Dev
+python:
+    ".*": "python3?"
+node:
+    ".*": "node(js)?"
+deno:
+    ".*": "deno"
 podman:
     ".*": "podman"
     winget: "PodmanDesktop"
@@ -55,24 +57,6 @@ shellcheck:
 rustup:
     ".*": "rustup"
     winget: "Rust"
-
-# Deps
-expat:
-    ".*": "(lib)?expat"
-openssl:
-    ".*": "openssl"
-
-# Termux-specific
-termux-tools:
-    ".*": ".*"
-termux-api:
-    ".*": ".*"
-proot-distro:
-    ".*": ".*"
-
-# Proprietary
-megacmd:
-    ".*": ".*"
 
 +all:
     # Get docs and bash completion on alpine

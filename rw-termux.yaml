@@ -1,0 +1,13 @@
+# Termux-specific
+termux-tools:
+    ".*": ".*"
+termux-api:
+    ".*": ".*"
+proot-distro:
+    ".*": ".*"
+
+# Deps
+expat:
+    ".*": "(lib)?expat"
+openssl:
+    ".*": "openssl"

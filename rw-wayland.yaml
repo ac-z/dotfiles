@@ -1,0 +1,21 @@
+# Terminals
+foot:
+    ".*": "foot"
+alacritty:
+    ".*": "alacritty"
+kitty:
+    ".*": "kitty"
+    
+# Sway
+sway:
+    ".*": "sway"
+swayidle:
+    ".*": "swayidle"
+swaylock:
+    ".*": "swaylock"
+swaybg:
+    ".*": "swaybg"
+
+# Other
+thunar:
+    ".*": "(T|t)hunar"
