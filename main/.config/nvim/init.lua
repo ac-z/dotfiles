@@ -317,65 +317,65 @@ require("lazy").setup(
 --
 -- LSP init
 --
-require("mason").setup()
-require("mason-lspconfig").setup()
-
-require("mason-lspconfig").setup_handlers {
-  -- auto handler for all installed Mason LSPs
-  function (server_name) -- default handler (optional)
-    require("lspconfig")[server_name].setup {}
-  end,
-  -- manual LSP handlers
-  ["lua_ls"] = function ()
-    local lspconfig = require('lspconfig')
-    lspconfig.lua_ls.setup {
-      settings = {
-        Lua = {
-          -- Get the language server to recognize the `vim` global
-          diagnostics = { globals = { 'vim','require' } },
-          -- Make the server aware of Neovim runtime files
-          workspace = {
-            library = vim.api.nvim_get_runtime_file("", true),
-            checkThirdParty = false,
-          },
-          -- Do not send telemetry data containing a randomized but unique identifier
-          telemetry = { enable = false },
-        },
-      },
-    }
-  end,
-  ["rust_analyzer"] = function ()
-    local lspconfig = require('lspconfig')
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities.experimental = {
-      localDocs = true,
-    }
-    lspconfig.rust_analyzer.setup({
-      root_dir = lspconfig.util.root_pattern('Cargo.toml'),
-      capabilities = capabilities,
-      on_attach = setup_lsp_keymaps,
-      commands = {
-        RustOpenDocs = {
-          function()
-            vim.lsp.buf_request(vim.api.nvim_get_current_buf(), 'experimental/externalDocs', vim.lsp.util.make_position_params(), function(err, url)
-              if err then
-                error(tostring(err))
-              else
-                if url["local"] == nil then
-                  vim.fn['netrw#BrowseX'](url["web"], 0)
-                else
-                  vim.fn['netrw#BrowseX'](url["local"], 0)
-                end
-              end
-            end)
-          end,
-          description = 'Open documentation for the symbol under the cursor in default browser',
-        },
-      },
-    })
-    vim.keymap.set('n', '<C-S-k>', vim.cmd.RustOpenDocs)
-  end
-}
+--require("mason").setup()
+--require("mason-lspconfig").setup()
+--
+--require("mason-lspconfig").setup_handlers {
+--  -- auto handler for all installed Mason LSPs
+--  function (server_name) -- default handler (optional)
+--    require("lspconfig")[server_name].setup {}
+--  end,
+--  -- manual LSP handlers
+--  ["lua_ls"] = function ()
+--    local lspconfig = require('lspconfig')
+--    lspconfig.lua_ls.setup {
+--      settings = {
+--        Lua = {
+--          -- Get the language server to recognize the `vim` global
+--          diagnostics = { globals = { 'vim','require' } },
+--          -- Make the server aware of Neovim runtime files
+--          workspace = {
+--            library = vim.api.nvim_get_runtime_file("", true),
+--            checkThirdParty = false,
+--          },
+--          -- Do not send telemetry data containing a randomized but unique identifier
+--          telemetry = { enable = false },
+--        },
+--      },
+--    }
+--  end,
+--  ["rust_analyzer"] = function ()
+--    local lspconfig = require('lspconfig')
+--    local capabilities = vim.lsp.protocol.make_client_capabilities()
+--    capabilities.experimental = {
+--      localDocs = true,
+--    }
+--    lspconfig.rust_analyzer.setup({
+--      root_dir = lspconfig.util.root_pattern('Cargo.toml'),
+--      capabilities = capabilities,
+--      on_attach = setup_lsp_keymaps,
+--      commands = {
+--        RustOpenDocs = {
+--          function()
+--            vim.lsp.buf_request(vim.api.nvim_get_current_buf(), 'experimental/externalDocs', vim.lsp.util.make_position_params(), function(err, url)
+--              if err then
+--                error(tostring(err))
+--              else
+--                if url["local"] == nil then
+--                  vim.fn['netrw#BrowseX'](url["web"], 0)
+--                else
+--                  vim.fn['netrw#BrowseX'](url["local"], 0)
+--                end
+--              end
+--            end)
+--          end,
+--          description = 'Open documentation for the symbol under the cursor in default browser',
+--        },
+--      },
+--    })
+--    vim.keymap.set('n', '<C-S-k>', vim.cmd.RustOpenDocs)
+--  end
+--}
 
 -- Use LspAttach autocommand to only map the following keys
 -- after the language server attaches to the current buffer
