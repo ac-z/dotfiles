@@ -1,6 +1,8 @@
 # CLI
 git:
     ".*": "git"
+git-lfs:
+    ".*": "git-lfs"
 openssh:
     ".*": "openssh(-client|-server|-keygen)?"
 wget:
