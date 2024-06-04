@@ -30,8 +30,6 @@ neovim:
     winget: "Neovim"
 jq:
     ".*": "jq"
-yq-mikefarah:
-    ".*": "(go-)?yq"
 ripgrep:
     ".*": "(rust-)?ripgrep"
 fd-find:
@@ -48,15 +46,14 @@ deno:
     ".*": "deno"
 podman:
     ".*": "podman"
-    winget: "PodmanDesktop"
 distrobox:
     ".*": "distrobox"
 shellcheck:
     ".*": "shellcheck"
-    winget: "ShellCheck"
 rustup:
     ".*": "rustup"
-    winget: "Rust"
+vscode:
+    ".*": "(vs)?code(-oss)?"
 
 +all:
     # Get docs and bash completion on alpine
