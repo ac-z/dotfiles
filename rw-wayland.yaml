@@ -15,7 +15,25 @@ swaylock:
     ".*": "swaylock"
 swaybg:
     ".*": "swaybg"
+libnotify:
+    ".*": "libnotify"
+light:
+    ".*": "light"
+playerctl:
+    ".*": "playerctl"
+grim:
+    ".*": "grim"
+slurp:
+    ".*": "slurp"
+sway-contrib:
+    ".*": "sway-contrib"
+waybar:
+    ".*": "waybar"
 
 # Other
 thunar:
     ".*": "(T|t)hunar"
+lxqt-policykit:
+    ".*": "lxqt-policykit"
+xdg-user-dirs:
+    ".*": "xdg-user-dirs"
