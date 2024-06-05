@@ -5,6 +5,7 @@ git-lfs:
     ".*": "git-lfs"
 openssh:
     ".*": "openssh(-client|-server|-keygen)?"
+    "debian(.*)?": "!openssh-client,openssh-server"
 wget:
     ".*": "wget2"
 rsync:
@@ -34,8 +35,10 @@ jq:
     ".*": "jq"
 ripgrep:
     ".*": "(rust-)?ripgrep"
+    "debian(.*)?": "!ripgrep"
 fd-find:
     ".*": "(rust-)?fd(-find)?"
+    "debian(.*)?": "!fd-find"
 fzf:
     ".*": "fzf"
 

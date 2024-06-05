@@ -17,6 +17,7 @@ swaybg:
     ".*": "swaybg"
 libnotify:
     ".*": "libnotify"
+    "debian(.*)?": "!libnotify-bin"
 light:
     ".*": "light"
 playerctl:
