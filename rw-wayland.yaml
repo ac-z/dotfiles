@@ -37,3 +37,7 @@ lxqt-policykit:
     ".*": "lxqt-policykit"
 xdg-user-dirs:
     ".*": "xdg-user-dirs"
+mpv:
+    ".*": "mpv"
+vlc:
+    ".*": "vlc"
