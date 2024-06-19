@@ -1,2 +1,2 @@
 #!/bin/sh
-code --enable-features=UseOzonePlatform --ozone-platform=wayland
+code --enable-features=UseOzonePlatform --ozone-platform=wayland $@
