@@ -7,3 +7,6 @@
 [submodule "main/git/util/rsync-time-backup"]
 	path = main/git/util/rsync-time-backup
 	url = git@github.com:laurent22/rsync-time-backup.git
+[submodule "main/.config/nvim"]
+	path = main/.config/nvim
+	url = ssh://git@ssh.github.com:443/ac-z/astronvim-config
