@@ -88,7 +88,7 @@ fi
 #################
 
 function install-nvim {
-	curl -LO https://github.com/neovim/neovim/releases/download/v0.9.2/nvim-linux64.tar.gz
+	curl -LO https://github.com/neovim/neovim/releases/download/v0.10.1/nvim-linux64.tar.gz
 	tar -xvf nvim-linux64.tar.gz --strip-components=1 -C $HOME/.local
 	rm nvim-linux64.tar.gz
 }
