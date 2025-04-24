@@ -43,6 +43,7 @@ colorscheme koehler
 hi Normal       guifg=#f2a400 guibg=#000000 gui=Bold
 
 hi LineNr       guifg=bg      guibg=fg gui=Bold    ctermbg=7  ctermfg=0
+hi NonText      guifg=#454545      guibg=bg gui=Bold    ctermbg=7  ctermfg=0
 
 hi clear CursorLine
 hi clear CursorLineNr
