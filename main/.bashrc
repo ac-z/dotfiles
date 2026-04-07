@@ -93,11 +93,20 @@ function install-nvim {
 	rm nvim-linux64.tar.gz
 }
 
-# Source Rust's env
-export CARGO_HOME="$HOME/.config/cargo"
-if [ -f "$HOME/.config/cargo/env" ]; then
-	. "$HOME/.config/cargo/env"
-fi
+function podman-wl {
+    podman "$1" \
+      --security-opt label=disable \
+      --uidmap 0:1:1000 \
+      --uidmap 1000:0:1 \
+      --uidmap 1001:1001:64535 \
+      --gidmap 0:1:1000 \
+      --gidmap 1000:0:1 \
+      --gidmap 1001:1001:64535 \
+      -e WAYLAND_DISPLAY=$WAYLAND_DISPLAY \
+      -e XDG_RUNTIME_DIR=/tmp/ \
+      -v $XDG_RUNTIME_DIR/$WAYLAND_DISPLAY:/tmp/$WAYLAND_DISPLAY:ro \
+      --device /dev/dri "${@:2}"
+}
 
 #####################
 ### Env Variables ###
@@ -129,6 +138,12 @@ elif hash "nano" &>/dev/null; then
 	export EDITOR="nano"
 fi
 export VISUAL=$EDITOR
+
+# Source Rust's env
+export CARGO_HOME="$HOME/.config/cargo"
+if [ -f "$HOME/.config/cargo/env" ]; then
+	. "$HOME/.config/cargo/env"
+fi
 
 # Paths
 function source_if_exists {
