@@ -52,29 +52,45 @@ fi
 #################
 
 function c {
-    local ENGINE
-
-    ENGINE=$(command -v podman || command -v docker)
-
     case "$1" in
-      from)
+      devbox)
         shift
-        podman create \
-          --security-opt label=disable \
-          --cap-add=NET_RAW \
-          --uidmap 0:1:1000 \
-          --uidmap 1000:0:1 \
-          --uidmap 1001:1001:64535 \
-          --gidmap 0:1:1000 \
-          --gidmap 1000:0:1 \
-          --gidmap 1001:1001:64535 \
-          -e WAYLAND_DISPLAY=$WAYLAND_DISPLAY \
-          -e XDG_RUNTIME_DIR=/tmp/ \
-          -v $XDG_RUNTIME_DIR/$WAYLAND_DISPLAY:/tmp/$WAYLAND_DISPLAY:ro \
-          --device /dev/dri \
-          "$1"
+        if [ -n "$1" ]; then
+          CONTAINER_NAME="$1"
+        else
+          CONTAINER_NAME="devbox"
+        fi
+
+        if [ -n "$2" ]; then
+          IMAGE="$2"
+        else
+          IMAGE="devbox"
+        fi
+
+        if ! podman ps -a --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
+          podman create \
+            --security-opt label=disable \
+            --cap-add=NET_RAW \
+            --uidmap 0:1:1000 \
+            --uidmap 1000:0:1 \
+            --uidmap 1001:1001:64535 \
+            --gidmap 0:1:1000 \
+            --gidmap 1000:0:1 \
+            --gidmap 1001:1001:64535 \
+            -e WAYLAND_DISPLAY=$WAYLAND_DISPLAY \
+            -e XDG_RUNTIME_DIR=/tmp/ \
+            -v $XDG_RUNTIME_DIR/$WAYLAND_DISPLAY:/tmp/$WAYLAND_DISPLAY:ro \
+            -e SSH_AUTH_SOCK=/tmp/ssh-auth.sock \
+            -v $SSH_AUTH_SOCK:/tmp/ssh-auth.sock:ro \
+            --device /dev/dri \
+            --name $CONTAINER_NAME \
+            "$IMAGE" \
+            sleep infinity
+        fi
+        podman start $CONTAINER_NAME
         ;;
       *)
+        podman "$@"
         ;;
     esac
 }
