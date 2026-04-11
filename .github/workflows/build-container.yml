@@ -1,0 +1,21 @@
+name: Tuesday dev container
+
+on:
+  schedule:
+    # Run at 1 AM every Tuesday
+    - cron: '0 1 * * 2'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Podman
+        uses: redhat-actions/podman-setup@v1
+
+      - name: Build container image
+        run: |
+          podman build -t dotfiles-container:latest -f Containerfile .
