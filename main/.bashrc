@@ -64,7 +64,7 @@ function c {
         if [ -n "$2" ]; then
           IMAGE="$2"
         else
-          IMAGE="devbox"
+          IMAGE="ghcr.io/ac-z/tuesday:latest"
         fi
 
         if ! podman ps -a --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
