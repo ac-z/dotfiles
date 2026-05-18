@@ -49,14 +49,14 @@ ENV BROWSER=firefox
 COPY main/ /home/dev/
 COPY private/ /home/dev/
 
-RUN chmod 777 /home/dev && \
-    mkdir -p /home/dev/.config && \
+RUN mkdir -p /home/dev/.config && \
     printf "\
 [Default Applications]\n\
 text/html=firefox.desktop\n\
 x-scheme-handler/http=firefox.desktop\n\
 x-scheme-handler/https=firefox.desktop\n\
-" > /home/dev/.config/mimeapps.list
+" > /home/dev/.config/mimeapps.list && \
+    chmod -R 777 /home/dev
 
 WORKDIR /home/dev
 CMD ["/usr/bin/bash"]
