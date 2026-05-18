@@ -1,9 +1,9 @@
 FROM greyltc/archlinux-aur:latest
 
 # Restore man pages: Comment out NoExtract, install man-db, and reinstall existing packages
-RUN sed -i 's/^NoExtract = /#NoExtract = /g' /etc/pacman.conf && \
+RUN sed -i 's/^NoExtract/#NoExtract/g' /etc/pacman.conf && \
     pacman -Ql | grep '/usr/share/man/' | cut -d' ' -f1 | sort -u | grep -v "paru" | \
-    sudo pacman -Syu --noconfirm -
+    sudo pacman -Syu --noconfirm man-db man-pages -
 
 RUN pacman -Syu --noconfirm \
   git \
@@ -46,13 +46,9 @@ ENV WAYLAND_DISPLAY=wayland-0
 ENV MOZ_ENABLE_WAYLAND=1
 ENV BROWSER=firefox
 
-COPY main/ /etc/skel/
-COPY private/ /etc/skel/
+COPY main/ /home/dev/
+COPY private/ /home/dev/
 
-RUN useradd -m -u 1000 dev && \
-    echo "dev ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-
-USER dev
 RUN mkdir -p /home/dev/.config && \
     printf "[Default Applications]\ntext/html=firefox.desktop\nx-scheme-handler/http=firefox.desktop\nx-scheme-handler/https=firefox.desktop" > /home/dev/.config/mimeapps.list
 
