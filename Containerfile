@@ -59,5 +59,7 @@ x-scheme-handler/https=firefox.desktop\n\
     chmod -R 777 /home/dev
 
 WORKDIR /home/dev
-CMD ["/usr/bin/bash"]
+
+ENTRYPOINT ["/usr/bin/dbus-run-session"]
+CMD ["/usr/bin/tmux"]
 
