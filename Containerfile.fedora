@@ -1,0 +1,90 @@
+FROM registry.fedoraproject.org/fedora:44
+
+RUN echo "excludepkgs=filesystem" >> /etc/dnf/dnf.conf && \
+    dnf upgrade -y && \
+    dnf install -y \
+  git \
+  git-lfs \
+  rsync \
+  stow \
+  zip \
+  unzip \
+  ncdu \
+  tree \
+  htop \
+  tmux \
+  screen \
+  bash-completion \
+  ShellCheck \
+  wget \
+  openssh-clients \
+  python3-pip \
+  pipx \
+  npm \
+  rustup \
+  xdg-utils \
+  ripgrep \
+  fd-find \
+  jq \
+  fzf \
+  neovim \
+  source-foundry-hack-fonts \
+  adobe-source-code-pro-fonts && \
+    dnf clean all
+
+# Install deno to /usr/local/bin via the official installer
+RUN wget -qO- https://deno.land/install.sh | DENO_INSTALL=/usr/local sh -s -- -y
+#
+# NOTE: source-foundry-hack-fonts provides the regular Hack font.
+# The Nerd Font patched variant (Arch: ttf-hack-nerd) is not in
+# official Fedora repos. Install from a COPR or nerd-fonts releases
+# if you need the glyph patches.
+#
+# NOTE: base-devel was dropped. It is an Arch-specific group used
+# for building AUR packages and has no direct Fedora equivalent.
+
+# Optional heavy packages for GUI / cloud workflows
+RUN printf '%s\n' '#!/bin/bash' \
+  'set -euo pipefail' \
+  'dnf install -y firefox rclone foot foot-terminfo wl-clipboard dbus-daemon' \
+  > /usr/local/sbin/getbloat.sh && chmod +x /usr/local/sbin/getbloat.sh
+
+ENV XDG_RUNTIME_DIR=/tmp
+ENV WAYLAND_DISPLAY=wayland-0
+ENV MOZ_ENABLE_WAYLAND=1
+ENV BROWSER=firefox
+
+# Add main dotfiles
+COPY main/ /etc/skel
+
+# Set up home from /etc/skel for the keep-id user
+RUN printf '%s\n' '#!/bin/sh' \
+  'uid="$(id -u)"' \
+  'entry="$(getent passwd "$uid" 2>/dev/null || true)"' \
+  '[ -z "$entry" ] && exit 0' \
+  'home="$(echo "$entry" | cut -d: -f6)"' \
+  '[ -z "$home" ] || [ "$home" = "/" ] && exit 0' \
+  'if [ -d "$home" ]; then' \
+  '  :' \
+  'elif mkdir -p "$home" 2>/dev/null; then' \
+  '  :' \
+  'else' \
+  '  exit 0' \
+  'fi' \
+  'if [ ! -e "$home/.bashrc" ] && [ -d /etc/skel ]; then' \
+  '  cp -a /etc/skel/. "$home/" 2>/dev/null || true' \
+  'fi' \
+  > /usr/local/sbin/setup-skel-home.sh && chmod +x /usr/local/sbin/setup-skel-home.sh
+
+# Use dbus-run-session only when available (i.e., bloat/GUI installed).
+# In a stripped Termux proot this falls back to plain exec.
+RUN printf '%s\n' '#!/bin/sh' \
+  'if command -v dbus-run-session >/dev/null 2>&1; then' \
+  '  exec dbus-run-session "$@"' \
+  'else' \
+  '  exec "$@"' \
+  'fi' \
+  > /usr/local/bin/entrypoint.sh && chmod +x /usr/local/bin/entrypoint.sh
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["/usr/bin/tmux", "new-session", "/usr/local/sbin/setup-skel-home.sh; exec $SHELL"]
