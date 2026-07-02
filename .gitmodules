@@ -1,3 +1,6 @@
 [submodule "private"]
 	path = private
 	url = git@github.com:amb3r-dev/dotfiles-private.git
+[submodule "main/.emacs.d"]
+	path = main/.emacs.d
+	url = https://github.com/doomemacs/core

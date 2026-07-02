@@ -39,27 +39,17 @@ RUN pacman -Syu --noconfirm \
   foot \
   foot-terminfo \
   ttf-hack-nerd \
-  adobe-source-code-pro-fonts
+  adobe-source-code-pro-fonts \
+  emacs-wayland
 
 ENV XDG_RUNTIME_DIR=/tmp
 ENV WAYLAND_DISPLAY=wayland-0
 ENV MOZ_ENABLE_WAYLAND=1
 ENV BROWSER=firefox
 
-RUN mkdir -p /etc/skel/.config && \
-    printf "\
-[Default Applications]\n\
-text/html=firefox.desktop\n\
-x-scheme-handler/http=firefox.desktop\n\
-x-scheme-handler/https=firefox.desktop\n\
-" > /etc/skel/.config/mimeapps.list
-
-# Add main dotfiles
-COPY main/ /etc/skel
-
 # Runs an internal dbus session so programs don't need access to the host dbus
 ENTRYPOINT ["/usr/bin/dbus-run-session"]
 
-# Container exits when tmux exits
-CMD ["/usr/bin/tmux"]
+# Start Doom Emacs in daemon mode (container stays alive until daemon exits)
+CMD ["emacs", "--daemon"]
 
