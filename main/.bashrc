@@ -110,6 +110,7 @@ function add_usrprefix() {
 	ensure_dir_in_path_var LD_LIBRARY_PATH $1/lib
 }
 add_usrprefix "${HOME}/.local"
+ensure_dir_in_path_var PATH "${HOME}/.emacs.d/bin"
 
 ## Editor variable
 # If Neovim is installed
