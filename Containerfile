@@ -51,5 +51,5 @@ ENV BROWSER=firefox
 ENTRYPOINT ["/usr/bin/dbus-run-session"]
 
 # Start Doom Emacs in daemon mode (container stays alive until daemon exits)
-CMD ["emacs", "--daemon"]
+CMD ["emacs", "--fg-daemon"]
 
