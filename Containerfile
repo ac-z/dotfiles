@@ -47,9 +47,9 @@ ENV WAYLAND_DISPLAY=wayland-0
 ENV MOZ_ENABLE_WAYLAND=1
 ENV BROWSER=firefox
 
-# Runs an internal dbus session so programs don't need access to the host dbus
-ENTRYPOINT ["/usr/bin/dbus-run-session"]
+# Set $FALLBACK_SHELL to an executable's path to run that instead of emacs
+COPY emacs-entrypoint.sh /usr/local/bin/emacs-entrypoint.sh
+RUN chmod +x /usr/local/bin/emacs-entrypoint.sh
 
-# Start Doom Emacs in daemon mode (container stays alive until daemon exits)
-CMD ["emacs", "--fg-daemon"]
+ENTRYPOINT ["/usr/bin/dbus-run-session", "/usr/local/bin/emacs-entrypoint.sh"]
 
