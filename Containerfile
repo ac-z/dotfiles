@@ -40,7 +40,8 @@ RUN pacman -Syu --noconfirm \
   foot-terminfo \
   ttf-hack-nerd \
   adobe-source-code-pro-fonts \
-  emacs-wayland
+  emacs-wayland \
+  bubblewrap-suid
 
 ENV XDG_RUNTIME_DIR=/tmp
 ENV WAYLAND_DISPLAY=wayland-0
