@@ -52,5 +52,7 @@ ENV BROWSER=firefox
 COPY emacs-entrypoint.sh /usr/local/bin/emacs-entrypoint.sh
 RUN chmod +x /usr/local/bin/emacs-entrypoint.sh
 
+WORKDIR /workspace
+
 ENTRYPOINT ["/usr/bin/dbus-run-session", "/usr/local/bin/emacs-entrypoint.sh"]
 
