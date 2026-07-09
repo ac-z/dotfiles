@@ -73,3 +73,11 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+
+;; Load additional config from config.d/ (if present).
+;; This dir is empty by default; other stow packages can drop files here.
+(let ((dir (expand-file-name "config.d" doom-user-dir)))
+  (when (file-directory-p dir)
+    (dolist (file (sort (directory-files dir t "\\.el\\'") #'string<))
+      (load file nil t))))
